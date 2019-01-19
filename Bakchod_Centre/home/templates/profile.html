@@ -1,0 +1,17 @@
+<html>
+
+<head>
+    <title>BackchodCenter</title>
+</head>
+
+<body>
+    <h1>{{ person.name }}</h1>
+    <a href="{{ person.name }}/edit.html">Edit</a>
+    <ul>
+    {% for friend in person.listOfFriends %}
+        <li>{{ friend }}</li>
+    {% endfor %}
+    </ul>
+</body>
+
+</html>
