@@ -12,3 +12,4 @@ class Person(models.Model):
     listOfFriends = models.ArrayField(
         models.CharField(max_length=100)
     )
+    
