@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0efe04ad-346c-4e1a-870a-14adb4390628" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Bakchod_Centre/Bakchod_Centre/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bakchod_Centre/Bakchod_Centre/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Bakchod_Centre/home/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bakchod_Centre/home/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bakchod_Centre/home/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bakchod_Centre/home/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bakchod_Centre/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bakchod_Centre/home/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="55" selection-start-line="11" selection-start-column="55" selection-end-line="11" selection-end-column="55" />
+            <state relative-caret-position="89">
+              <caret line="11" column="31" lean-forward="true" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -31,8 +28,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="56" selection-start-line="7" selection-start-column="56" selection-end-line="7" selection-end-column="56" />
+            <state relative-caret-position="68">
+              <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -45,11 +42,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
-              <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -66,10 +63,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/AutoGit.sh" />
-        <option value="$PROJECT_DIR$/Bakchod_Centre/home/urls.py" />
         <option value="$PROJECT_DIR$/Bakchod_Centre/Bakchod_Centre/urls.py" />
-        <option value="$PROJECT_DIR$/Bakchod_Centre/home/views.py" />
         <option value="$PROJECT_DIR$/Bakchod_Centre/home/models.py" />
+        <option value="$PROJECT_DIR$/Bakchod_Centre/home/urls.py" />
+        <option value="$PROJECT_DIR$/Bakchod_Centre/home/views.py" />
       </list>
     </option>
   </component>
@@ -209,8 +206,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="56" selection-start-line="7" selection-start-column="56" selection-end-line="7" selection-end-column="56" />
+        <state relative-caret-position="68">
+          <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -220,22 +217,22 @@
     <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/forms.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/views.py">
+    <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="55" selection-start-line="11" selection-start-column="55" selection-end-line="11" selection-end-column="55" />
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/models.py">
+    <entry file="file://$PROJECT_DIR$/Bakchod_Centre/home/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+        <state relative-caret-position="89">
+          <caret line="11" column="31" lean-forward="true" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
           <folding>
-            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>

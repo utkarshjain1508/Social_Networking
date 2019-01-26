@@ -9,7 +9,9 @@ def profile(request):
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
-        person = get_object_or_404(Person, pk=person_id)
+        person = request.person
+
+        # friends = get_object_or_404()
         return render(request, 'home/profile.html', {'person': person})
 
 def useredit(request):
