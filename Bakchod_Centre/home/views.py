@@ -1,27 +1,30 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Person
+from .models import CustomUser
 
 def signup(request):
-    return HttpResponse('<a href="http://127.0.0.1:8000/home/signup"> signup </a>' )
+    if request.method == 'POST':
+
+        return render(request, 'home/login.html')
+    elif request.method == 'GET':
+        return render(request, 'home/signup.html')
 
 def profile(request):
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
         person = request.person
-
         # friends = get_object_or_404()
         return render(request, 'home/profile.html', {'person': person})
 
-def useredit(request):
+def user_edit(request):
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
         return render(request, 'home/user-edit.html')
 
 
-def login(request):
+def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
