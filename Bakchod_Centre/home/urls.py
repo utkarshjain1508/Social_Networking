@@ -2,9 +2,8 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
-    path('', views.login, name="login"),
-    path('signup', views.signup, name="signup"),
-    path('user', views.profile, name="profile"),
-    path('user/edit', views.UserEdit.as_view(), name="useredit"),
-    path('logging_user' views.logging_func, name="logging_user")
+    path('', views.login, name='login'),
+    path('signup', views.signup, name='signup'),
+    path('username', views.profile, name='profile'),
+    path('username/edit', views.UserEdit.as_view(), name='useredit'),
 ]

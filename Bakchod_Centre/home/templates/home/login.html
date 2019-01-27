@@ -3,11 +3,14 @@
 {% endif %}
 
 <h1> This is the Login page </h1>
-<form method="post">
+<form method="post" action="{% url home:login %}">
   User Name:<br>
   <input type="text" placeholder="User Name" name="username"><br>
   Password:<br>
   <input type="text" placeholder="Type Password" name="pwd"><br>
+  <button type="submit" > Sign In </button>
 </form>
 
-<button onclick="location.href=''"
+<form method="get" action="{% url home:signup %}">
+  <button type="submit" > Sign Up </button>
+</form>

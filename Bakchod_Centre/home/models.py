@@ -9,7 +9,6 @@ class Person(models.Model):
     contact = models.IntegerField(max_length=20)
     profilePic = models.ImageField(upload_to='/media/', null=True)  # Check upload_to
 
-    listOfFriends = models.ArrayField(
-        models.CharField(max_length=100)
-    )
-    
+    # listOfFriends = models.ArrayField(
+    #     models.CharField(max_length=100)
+    # )
