@@ -21,7 +21,7 @@ def useredit(request):
         return render(request, 'home/user-edit.html')
 
 
-def login(request):
+def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
