@@ -5,13 +5,8 @@
 </head>
 
 <body>
-    <h1>{{ person.name }}</h1>
-    <a href="{{ person.name }}/edit.html">Edit</a>
-    <ul>
-    {% for friend in person.listOfFriends %}
-        <li>{{ friend }}</li>
-    {% endfor %}
-    </ul>
+    <h1>{{ custom_user.first_name }} {{ custom_user.last_name }}</h1>
+    <a href="{{ custom_user.username }}/edit">Edit</a>
 </body>
 
 </html>

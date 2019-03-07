@@ -1,0 +1,24 @@
+{% if error_message %}
+<h3> {{ error_message }} </h3>
+{% endif %}
+
+<h1> Edit Profile </h1>
+<form method="post" action="{% url 'home:user_edit' custom_user.username %}">
+  {% csrf_token %}
+  First Name:<br>
+  <input type="text" value="{{custom_user.first_name}}" name="first_name"><br>
+
+  Last Name:<br>
+  <input type="text" value="{{custom_user.last_name}}" name="last_name"><br>
+
+  User Name:<br>
+  <input type="text" value="{{custom_user.username}}" name="username"><br>
+
+  Email:<br>
+  <input type="text" value="{{custom_user.email}}" name="email"><br>
+
+  Contact:<br>
+  <input type="text" value="{{custom_user.contact}}" name="contact"><br>
+
+  <button type="submit" >Update</button>
+</form>

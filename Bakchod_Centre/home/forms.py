@@ -1,15 +1,20 @@
 from django import forms
 from .models import CustomUser
+from django.db import models
 
-class signup_form(forms.ModelForm):
+class signup_form(forms.Form):
     password2 = forms.CharField(label='password2', max_length=100)
+    password = forms.CharField(label='password', max_length=100)
+    first_name = forms.CharField(label='first_name', max_length=100)
+    last_name = forms.CharField(label='last_name', max_length=100)
+    username = forms.CharField(label='username', max_length=100)
+    email = forms.CharField(label='email', max_length=100)
+    contact = forms.IntegerField(label='contact')
 
-    class Meta:
-        model = CustomUser
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'contact']
-
-class user_edit_form(forms.ModelForm):
-    password2 = forms.CharField(label='password2', max_length=100)
-    class Meta:
-        model = CustomUser
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'contact', 'profilePic']
+class user_edit_form(forms.Form):
+    first_name = forms.CharField(label='first_name', max_length=100)
+    last_name = forms.CharField(label='last_name', max_length=100)
+    username = forms.CharField(label='username', max_length=100)
+    email = forms.CharField(label='email', max_length=100)
+    contact = forms.IntegerField(label='contact')
+    # profilePic = models.ImageField(upload_to='media/', null=True, blank=True)
