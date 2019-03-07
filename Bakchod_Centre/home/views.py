@@ -2,15 +2,39 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import CustomUser
 from django.contrib.auth import authenticate
+from .forms import signup_form
 
 def signup(request):
-    return HttpResponse('<a href="http://127.0.0.1:8000/home/signup"> signup </a>' )
+    if request.method == 'GET':
+        New_Form = signup_form()
+        return render(request, 'home/signup.html')
+    elif request.method == 'POST':
+        form = signup_form(request.POST)
+
+        if form.is_valid():
+            if form.cleaned_data.get('password') != form.cleaned_data.get('password2'):
+                print("Error! Password Not Matched")
+                pass
+            else:
+                # New_User = CustomUser()
+                form.save()
+                # New_User.username = form.cleaned_data['username']
+                # New_User.first_name = form.cleaned_data['first_name']
+                # New_User.last_name = form.cleaned_data['last_name']
+                # New_User.email = form.cleaned_data['email']
+                # New_User.password = form.cleaned_data['password']
+                # New_User.contact = form.cleaned_data['contact']
+                # New_User.save()
+                return render(request, 'home/login.html')
+        else:
+            print("wrong")
+            return render(request,'home/signup.html')
 
 def profile(request):
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
-        person = request.person
+        username = request.GET['username']
 
         # friends = get_object_or_404()
         return render(request, 'home/profile.html', {'person': person})
@@ -26,6 +50,8 @@ def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        print(username)
+        print(password)
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:

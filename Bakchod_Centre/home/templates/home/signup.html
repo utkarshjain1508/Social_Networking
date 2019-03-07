@@ -1,0 +1,30 @@
+{% if error_message %}
+<h3> {{ error_message }} </h3>
+{% endif %}
+
+<h1> This is the Signup page </h1>
+<form method="post" action="{% url 'home:signup' %}">
+  {% csrf_token %}
+  First Name:<br>
+  <input type="text" placeholder="First Name" name="first_name"><br>
+
+  Last Name:<br>
+  <input type="text" placeholder="Last Name" name="last_name"><br>
+
+  User Name:<br>
+  <input type="text" placeholder="User Name" name="username"><br>
+
+  Email:<br>
+  <input type="text" placeholder="Email" name="email"><br>
+
+  Password:<br>
+  <input type="text" placeholder="Type Password" name="password"><br>
+
+  Confirm Password:<br>
+  <input type="text" placeholder="Confirm Password" name="password2"><br>
+
+  Contact:<br>
+  <input type="text" placeholder="Contact" name="contact"><br>
+
+  <button type="submit" >Sign Up</button>
+</form>
