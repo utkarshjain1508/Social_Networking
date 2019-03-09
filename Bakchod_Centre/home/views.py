@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import CustomUser
+from .models import *
 from django.contrib.auth import authenticate, login
-from .forms import signup_form, user_edit_form, change_password_form
+from .forms import *
 from django.contrib.auth.hashers import make_password
+from django.core.files.storage import FileSystemStorage
+import os
 
 def signup(request):
     if request.method == 'GET':
@@ -39,16 +41,25 @@ def profile(request, userName):
 
 def user_edit(request, userName):
     if request.method == 'POST':
-        form = user_edit_form(request.POST)
-        print("yes")
+        form = user_edit_form(request.POST, request.FILES)
         if form.is_valid():
-            print("no")
             Edit_User = CustomUser.objects.get(username = userName)
             Edit_User.username = form.cleaned_data['username']
             Edit_User.first_name = form.cleaned_data['first_name']
             Edit_User.last_name = form.cleaned_data['last_name']
             Edit_User.email = form.cleaned_data['email']
             Edit_User.contact = form.cleaned_data['contact']
+
+            if request.FILES['profile_image']:
+                try:
+                    os.remove("."+Edit_User.profile_image.name)
+                except:
+                    pass
+                profile_image = request.FILES['profile_image']
+                fs = FileSystemStorage()
+                filename = fs.save("./home/ProfileImage/"+userName+".jpg", profile_image)
+                Edit_User.profile_image = fs.url(filename)
+
             Edit_User.save()
             return redirect('/home/'+userName)
 

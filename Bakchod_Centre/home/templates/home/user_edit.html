@@ -3,7 +3,7 @@
 {% endif %}
 
 <h1> Edit Profile </h1>
-<form method="post" action="{% url 'home:user_edit' custom_user.username %}">
+<form method="post" enctype="multipart/form-data" action="{% url 'home:user_edit' custom_user.username %}">
   {% csrf_token %}
   First Name:<br>
   <input type="text" value="{{custom_user.first_name}}" name="first_name"><br>
@@ -19,6 +19,9 @@
 
   Contact:<br>
   <input type="text" value="{{custom_user.contact}}" name="contact"><br>
+
+  Profile Image:<br>
+  <input type="file" name="profile_image"><br>
 
   <button type="submit" >Update</button>
 </form>
