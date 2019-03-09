@@ -18,3 +18,8 @@ class user_edit_form(forms.Form):
     email = forms.CharField(label='email', max_length=100)
     contact = forms.IntegerField(label='contact')
     # profilePic = models.ImageField(upload_to='media/', null=True, blank=True)
+
+class change_password_form(forms.Form):
+    old_password = forms.CharField(label='old_password', max_length=100)
+    new_password = forms.CharField(label='new_password', max_length=100)
+    confirm_password = forms.CharField(label='confirm_password', max_length=100)
