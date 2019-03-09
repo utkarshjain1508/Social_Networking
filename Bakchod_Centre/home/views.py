@@ -111,3 +111,10 @@ def change_password(request, userName):
         newForm = change_password_form()
         custom_user = CustomUser.objects.get(username = userName)
         return render(request, 'home/change_password.html', {'custom_user': custom_user})
+
+def user_view_profile(request, userName):
+    if request.method == 'GET':
+        user = CustomUser.objects.get(username=userName)
+        return render(request, 'home/view_profile.html', {'user': user})
+    elif request.method == 'POST':
+        pass
