@@ -15,22 +15,22 @@ def signup(request):
         form = signup_form(request.POST)
 
         if form.is_valid():
-            if form.cleaned_data.get('password') != form.cleaned_data.get('password2'):
-                print("Error! Password Not Matched")
-                pass
-            else:
-                New_User = CustomUser()
-                New_User.username = form.cleaned_data['username']
-                New_User.first_name = form.cleaned_data['first_name']
-                New_User.last_name = form.cleaned_data['last_name']
-                New_User.email = form.cleaned_data['email']
-                dum = make_password(form.cleaned_data['password'])
-                New_User.password = dum
-                New_User.contact = form.cleaned_data['contact']
-                New_User.save()
-                return render(request, 'home/login.html')
+            # if form.cleaned_data['password'] != form.cleaned_data['password2']:
+            New_User = CustomUser()
+            # New_User=form.save(commit = False)
+            New_User.username = form.cleaned_data['username']
+            New_User.first_name = form.cleaned_data['first_name']
+            New_User.last_name = form.cleaned_data['last_name']
+            New_User.email = form.cleaned_data['email']
+            dum = make_password(form.cleaned_data['password'])
+            New_User.password = dum
+            New_User.contact = form.cleaned_data['contact']
+            New_User.save()
+            return render(request, 'home/login.html')
         else:
-            return render(request,'home/signup.html')
+            print("nkne")
+            return render(request, 'home/signup.html', {'method' : 'post'})
+            # return render(request,'home/signup.html')
 
 def profile(request, userName):
     if request.method == 'POST':

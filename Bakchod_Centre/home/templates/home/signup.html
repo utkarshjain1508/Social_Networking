@@ -3,6 +3,14 @@
 {% endif %}
 
 <h1> This is the Signup page </h1>
+
+{% load staticfiles %}
+<script>
+    var a = "{{method}}";
+    var b = "{{message}}";
+</script>
+
+
 <form method="post" action="{% url 'home:signup' %}">
   {% csrf_token %}
   First Name:<br>
@@ -22,7 +30,10 @@
 
   Confirm Password:<br>
   <input type="text" placeholder="Confirm Password" name="password2"><br>
-
+  <p id="confirm_password">
+  </p>
+  <script  src="{% static "/home/js/signup.js" %}">
+  </script>
   Contact:<br>
   <input type="text" placeholder="Contact" name="contact"><br>
 
