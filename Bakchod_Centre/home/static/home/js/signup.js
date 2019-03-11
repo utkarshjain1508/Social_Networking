@@ -1,4 +1,4 @@
-// alert(a);
-if(a=="post"){
-    document.getElementById("confirm_password").innerHTML = "Password Not Matching";
+if(field=="first_name"){
+    alert("don");
+    document.getElementById("first_name").innerHTML = message;
 }

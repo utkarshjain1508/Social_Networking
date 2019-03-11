@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.core.files.storage import FileSystemStorage
+from .Data_Validation import *
 import os
 
 def signup(request):
@@ -13,24 +14,25 @@ def signup(request):
         return render(request, 'home/signup.html')
     elif request.method == 'POST':
         form = signup_form(request.POST)
+        form.is_valid()
+        # print(form.cleaned_data['username'])
+        output = Check_First_Name(form.cleaned_data['first_name'])
+        print(output)
+        if output['check'] == False:
+            print("njsodn")
+            return render(request, 'home/signup.html', {'error_field' : 'first_name', 'message': output['error']})
+            # return render(request, 'home/signup.html')
 
-        if form.is_valid():
-            # if form.cleaned_data['password'] != form.cleaned_data['password2']:
-            New_User = CustomUser()
-            # New_User=form.save(commit = False)
-            New_User.username = form.cleaned_data['username']
-            New_User.first_name = form.cleaned_data['first_name']
-            New_User.last_name = form.cleaned_data['last_name']
-            New_User.email = form.cleaned_data['email']
-            dum = make_password(form.cleaned_data['password'])
-            New_User.password = dum
-            New_User.contact = form.cleaned_data['contact']
-            New_User.save()
-            return render(request, 'home/login.html')
-        else:
-            print("nkne")
-            return render(request, 'home/signup.html', {'method' : 'post'})
-            # return render(request,'home/signup.html')
+        New_User = CustomUser()
+        New_User.username = form.cleaned_data['username']
+        New_User.first_name = form.cleaned_data['first_name']
+        New_User.last_name = form.cleaned_data['last_name']
+        New_User.email = form.cleaned_data['email']
+        dum = make_password(form.cleaned_data['password'])
+        New_User.password = dum
+        New_User.contact = form.cleaned_data['contact']
+        New_User.save()
+        return render(request, 'home/login.html')
 
 def profile(request, userName):
     if request.method == 'POST':

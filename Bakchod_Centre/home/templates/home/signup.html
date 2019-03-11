@@ -6,36 +6,48 @@
 
 {% load staticfiles %}
 <script>
-    var a = "{{method}}";
-    var b = "{{message}}";
+    var field = "{{error_field}}"
+    var message = "{{message}}";
+    // alert(field);
 </script>
+
 
 
 <form method="post" action="{% url 'home:signup' %}">
   {% csrf_token %}
+
   First Name:<br>
-  <input type="text" placeholder="First Name" name="first_name"><br>
+  <input type="text" placeholder="First Name" name="first_name">
+  <!-- <p id="first_name"></p><br> -->
 
   Last Name:<br>
-  <input type="text" placeholder="Last Name" name="last_name"><br>
+  <input type="text" placeholder="Last Name" name="last_name">
+  <!-- <p id="last_name"></p><br> -->
 
   User Name:<br>
-  <input type="text" placeholder="User Name" name="username"><br>
+  <input type="text" placeholder="User Name" name="username">
+  <!-- <p id="username"></p><br> -->
 
   Email:<br>
-  <input type="text" placeholder="Email" name="email"><br>
-
+  <input type="text" placeholder="Email" name="email">
+  <!-- <p id="email"></p><br> -->
+  <br>
   Password:<br>
-  <input type="text" placeholder="Type Password" name="password"><br>
+  <input type="text" placeholder="Type Password" name="password">
+  <!-- <p id="password"></p><br> -->
 
   Confirm Password:<br>
-  <input type="text" placeholder="Confirm Password" name="password2"><br>
+  <input type="text" placeholder="Confirm Password" name="password2">
   <p id="confirm_password">
   </p>
-  <script  src="{% static "/home/js/signup.js" %}">
+  <script src="{% static "/home/js/signup.js" %}">
   </script>
+
   Contact:<br>
-  <input type="text" placeholder="Contact" name="contact"><br>
+  <input type="text" placeholder="Contact" name="contact">
+  <!-- <p id="contact"></p><br> -->
+
+
 
   <button type="submit" >Sign Up</button>
 </form>
