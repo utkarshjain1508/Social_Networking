@@ -47,7 +47,23 @@
   <input type="text" placeholder="Contact" name="contact">
   <p id="contact"></p><br>
 
+  Gender:<br>
+  <select name='gender'>
+      <option value='Male'>Male</option>
+      <option value='Female'>Female</option>
+      <option value='Other'>Other</option>
+      <option value='Do not wish to specify'>Do not wish to specify</option>
+  </select>
+  <p id="gender"></p><br>
 
+  Date Of Birth:<br>
+  <input type="date" placeholder="Date Of Birth" name="date_of_birth">
+  <p id="date_of_birth"></p><br>
+
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <div class="g-recaptcha" id="recaptcha" data-sitekey="6LepHZcUAAAAAK2JrcK0Mx-kIyWHVRUmVhgZY89q"></div>
 
   <button type="submit" >Sign Up</button>
 </form>
+
+<script  src="{% static "/home/js/signup.js" %}"></script>

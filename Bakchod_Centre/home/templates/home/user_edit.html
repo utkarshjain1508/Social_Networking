@@ -20,8 +20,39 @@
   Contact:<br>
   <input type="text" value="{{custom_user.contact}}" name="contact"><br>
 
+  Gender:<br>
+  <select name='gender' value='{{custom_user.gender}}'>
+      <option value='Male'>Male</option>
+      <option value='Female'>Female</option>
+      <option value='Other'>Other</option>
+      <option value='Do not wish to specify'>Do not wish to specify</option>
+  </select>
+  <p id="gender"></p><br>
+
+  Date Of Birth:<br>
+  <input type="date" value="{{custom_user.date_of_birth}}" name="date_of_birth">
+  <p id="date_of_birth"></p><br>
+
+  Education:<br>
+  <input type="text" value="{{custom_user.education}}" name="education"><br>
+
+  College/School:<br>
+  <input type="text" value="{{custom_user.education_place}}" name="education_place"><br>
+
+  Job:<br>
+  <input type="text" value="{{custom_user.job}}" name="job"><br>
+
+  Workplace:<br>
+  <input type="text" value="{{custom_user.job_place}}" name="job_place"><br>
+
+  Current Location:<br>
+  <input type="text" value="{{custom_user.current_location}}" name="current_location"><br>
+
+  Relationship Status:<br>
+  <input type="text" value="{{custom_user.relationship_status}}" name="relationship_status"><br>
+
   Profile Image:<br>
-  <input type="file" name="profile_image"><br>
+  <input type="file" name="profile_image" accept="image/*"><br>
 
   <button type="submit" >Update</button>
 </form>

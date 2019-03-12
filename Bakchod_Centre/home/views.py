@@ -7,6 +7,8 @@ from django.contrib.auth.hashers import make_password
 from django.core.files.storage import FileSystemStorage
 from .Data_Validation import *
 import os
+import json
+import urllib
 
 def signup(request):
     if request.method == 'GET':
@@ -31,8 +33,28 @@ def signup(request):
         dum = make_password(form.cleaned_data['password'])
         New_User.password = dum
         New_User.contact = form.cleaned_data['contact']
-        New_User.save()
-        return render(request, 'home/login.html')
+        New_User.gender = form.cleaned_data['gender']
+        New_User.date_of_birth = form.cleaned_data['date_of_birth']
+
+        # Recaptcha Validation
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        values = {
+                'secret': '6LepHZcUAAAAABUgoqJHSzWAlb1azB6TiCWHXgd4',
+                'response': recaptcha_response
+        }
+        data = urllib.parse.urlencode(values).encode()
+        req =  urllib.request.Request(url, data=data)
+        response = urllib.request.urlopen(req)
+        result = json.loads(response.read().decode())
+
+        if result['success']:
+            New_User.save()
+            return render(request, 'home/login.html')
+        else:
+            messages.error(request, 'Invalid reCAPTCHA. Please try again.')
+            return render(request, 'home/signup.html', {'error_field' : 'recaptcha', 'message': 'Invalid reCAPTCHA. Please try again.'})
+
 
 def profile(request, userName):
     if request.method == 'POST':
@@ -44,6 +66,7 @@ def profile(request, userName):
 def user_edit(request, userName):
     if request.method == 'POST':
         form = user_edit_form(request.POST, request.FILES)
+        print(form.errors)
         if form.is_valid():
             Edit_User = CustomUser.objects.get(username = userName)
             Edit_User.username = form.cleaned_data['username']
@@ -51,8 +74,16 @@ def user_edit(request, userName):
             Edit_User.last_name = form.cleaned_data['last_name']
             Edit_User.email = form.cleaned_data['email']
             Edit_User.contact = form.cleaned_data['contact']
+            Edit_User.date_of_birth = form.cleaned_data['date_of_birth']
+            Edit_User.gender = form.cleaned_data['gender']
+            Edit_User.education = form.cleaned_data['education']
+            Edit_User.education_place = form.cleaned_data['education_place']
+            Edit_User.job = form.cleaned_data['job']
+            Edit_User.job_place = form.cleaned_data['job_place']
+            Edit_User.current_location = form.cleaned_data['current_location']
+            Edit_User.relationship_status = form.cleaned_data['relationship_status']
 
-            if request.FILES['profile_image']:
+            if request.FILES.get('profile_image', False):
                 try:
                     os.remove("."+Edit_User.profile_image.name)
                 except:
