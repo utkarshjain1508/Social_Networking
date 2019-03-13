@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.core.files.storage import FileSystemStorage
@@ -10,12 +10,16 @@ import os
 from django.core.mail import EmailMessage
 import json
 import urllib
-
+from django.core.serializers.json import DjangoJSONEncoder
 
 def signup(request):
     if request.method == 'GET':
         New_Form = signup_form()
-        return render(request, 'home/signup.html')
+        username_list = CustomUser.objects.values_list('username')
+        email_list = CustomUser.objects.values_list('email')
+        username_list_json = json.dumps(list(username_list), cls=DjangoJSONEncoder)
+        email_list_json = json.dumps(list(email_list), cls=DjangoJSONEncoder)
+        return render(request, 'home/signup.html', {'username_list': username_list_json, 'email_list': email_list_json})
     elif request.method == 'POST':
         form = signup_form(request.POST)
         form.is_valid()
@@ -44,9 +48,8 @@ def signup(request):
 
         if result['success']:
             New_User.save()
-            return render(request, 'home/login.html')
+            return redirect('/home/')
         else:
-            messages.error(request, 'Invalid reCAPTCHA. Please try again.')
             return render(request, 'home/signup.html', {'error_field' : 'recaptcha', 'message': 'Invalid reCAPTCHA. Please try again.'})
 
 
