@@ -1,69 +1,214 @@
+<!DOCTYPE html>
 {% if error_message %}
 <h3> {{ error_message }} </h3>
 {% endif %}
+<html>
+<head>
+    <script>
+    function hasWhiteSpace(s)
+    {
+        return s.indexOf(' ') >= 0;
+    }
+    function validateForm() {
+        var first_name = document.forms["myForm"]["first_name"].value;
+        var last_name = document.forms["myForm"]["last_name"].value;
+        var username = document.forms["myForm"]["username"].value;
+        var user_email = document.forms["myForm"]["user_email"].value;
+        var password = document.forms["myForm"]["password"].value;
+        var confirm_password = document.forms["myForm"]["confirm_password"].value;
+        var contact = document.forms["myForm"]["contact"].value;
+        first_name = first_name.trim();
+        last_name = last_name.trim();
+        username = username.trim();
+        user_email = user_email.trim();
+        contact = contact.trim();
 
-<h1> This is the Signup page </h1>
+        // Regular Expressions
+        var reg_letters = /^[A-Za-z]+$/;
+        var reg_username = /^[a-zA-Z0-9\_]+$/;
+        var reg_user_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        var reg_contact = /^[0-9]{10}$/;
 
-{% load staticfiles %}
-<script>
-    var field = "{{error_field}}"
-    var message = "{{message}}";
-    //alert(message);
-</script>
+        if (first_name == "") {
+            document.getElementById('first_name').innerHTML = "Please enter your First Name";
+            return false;
+        }
+        else {
+            document.getElementById('first_name').innerHTML = "";
+        }
+
+        if (last_name == "") {
+            document.getElementById('last_name').innerHTML = "Please enter your Last Name";
+            return false;
+        }
+        else {
+            document.getElementById('last_name').innerHTML = "";
+        }
+
+        if (username == "") {
+            document.getElementById('username').innerHTML = "Please enter your Username";
+            return false;
+        }
+        else {
+            document.getElementById('username').innerHTML = "";
+        }
+
+        if (user_email == "") {
+            document.getElementById('user_email').innerHTML = "Please enter your email";
+            return false;
+        }
+        else {
+            document.getElementById('user_email').innerHTML = "";
+        }
+
+        if (password == "") {
+            document.getElementById('password').innerHTML = "Please enter the password";
+            return false;
+        }
+        else {
+            document.getElementById('password').innerHTML = "";
+        }
+
+        if (confirm_password == "") {
+            document.getElementById('confirm_password').innerHTML = "Please Confirm the password";
+            return false;
+        }
+        else {
+            document.getElementById('confirm_password').innerHTML = "";
+        }
+
+        if (contact == "") {
+            document.getElementById('contact').innerHTML = "Please enter your Contact Number";
+            return false;
+        }
+        else {
+            document.getElementById('contact').innerHTML = "";
+        }
+
+        if (hasWhiteSpace(password)){
+            document.getElementById('password').innerHTML = "Password can't contain white spaces";
+            return false;
+        }
+        else {
+            document.getElementById('password').innerHTML = "";
+        }
+
+        if (!(first_name.match(reg_letters))) {
+            document.getElementById('first_name').innerHTML = "First Name can contain only alphabets";
+            return false;
+        }
+        else {
+            document.getElementById('first_name').innerHTML = "";
+        }
+
+        if (!(last_name.match(reg_letters))) {
+            document.getElementById('last_name').innerHTML = "Last Name can contain only alphabets";
+            return false;
+        }
+        else {
+            document.getElementById('last_name').innerHTML = "";
+        }
+
+        if (!(username.match(reg_username))) {
+            document.getElementById('username').innerHTML = "UserName can contain only alphanumeric characters and Underscore";
+            return false;
+        }
+        else {
+            document.getElementById('username').innerHTML = "";
+        }
+
+
+        if (!(user_email.match(reg_user_email))) {
+            document.getElementById('user_email').innerHTML = "Invalid Email Address";
+            return false;
+        }
+        else {
+            document.getElementById('user_email').innerHTML = "";
+        }
+
+
+        if (password.length < 8) {
+            document.getElementById('password').innerHTML = "Password should contain a minimum of 8 characters";
+            return false;
+        }
+        else {
+            document.getElementById('password').innerHTML = "";
+        }
 
 
 
-<form method="post" action="{% url 'home:signup' %}">
-  {% csrf_token %}
+        if (password != confirm_password) {
+            document.getElementById('confirm_password').innerHTML = "Password and Confirm Password not matching";
+            return false;
+        }
+        else {
+            document.getElementById('confirm_password').innerHTML = "";
+        }
 
-  First Name:<br>
-  <input type="text" placeholder="First Name" name="first_name">
-  <p id="first_name"></p><br>
+        if (!(contact.match(reg_contact))) {
+            document.getElementById('contact').innerHTML = "Contact No. should contain exactly 10 digits";
+            return false;
+        }
+        else {
+            document.getElementById('contact').innerHTML = "";
+        }
+        return true;
+    }
+    </script>
+</head>
+<body>
 
-  Last Name:<br>
-  <input type="text" placeholder="Last Name" name="last_name">
-  <p id="last_name"></p><br>
+    <h1> This is the Signup page </h1>
 
-  User Name:<br>
-  <input type="text" placeholder="User Name" name="username">
-  <p id="username"></p><br>
+    <form name="myForm" onsubmit="return validateForm()" method="post" action="{% url 'home:signup' %}">
+        {% csrf_token %}
 
-  Email:<br>
-  <input type="text" placeholder="Email" name="email">
-  <p id="email"></p><br>
-  <br>
-  Password:<br>
-  <input type="text" placeholder="Type Password" name="password">
-  <p id="password"></p><br>
+        First Name:<br>
+        <input type="text" placeholder="First Name" name="first_name">
+        <p id="first_name"></p><br>
 
-  Confirm Password:<br>
-  <input type="text" placeholder="Confirm Password" name="password2">
-  <p id="confirm_password">
-  </p>
-  <script src="{% static "/home/js/signup.js" %}">
-  </script>
+        Last Name:<br>
+        <input type="text" placeholder="Last Name" name="last_name">
+        <p id="last_name"></p><br>
 
-  Contact:<br>
-  <input type="text" placeholder="Contact" name="contact">
-  <p id="contact"></p><br>
+        User Name:<br>
+        <input type="text" placeholder="User Name" name="username">
+        <p id="username"></p><br>
 
-  Gender:<br>
-  <select name='gender'>
-      <option value='Male'>Male</option>
-      <option value='Female'>Female</option>
-      <option value='Other'>Other</option>
-      <option value='Do not wish to specify'>Do not wish to specify</option>
-  </select>
-  <p id="gender"></p><br>
+        Email:<br>
+        <input type="text" placeholder="Email" name="user_email">
+        <p id="user_email"></p><br>
+        <br>
+        Password:<br>
+        <input type="text" placeholder="Type Password" name="password">
+        <p id="password"></p><br>
 
-  Date Of Birth:<br>
-  <input type="date" placeholder="Date Of Birth" name="date_of_birth">
-  <p id="date_of_birth"></p><br>
+        Confirm Password:<br>
+        <input type="text" placeholder="Confirm Password" name="confirm_password">
+        <p id="confirm_password">
+        </p>
 
-  <script src='https://www.google.com/recaptcha/api.js'></script>
-  <div class="g-recaptcha" id="recaptcha" data-sitekey="6LepHZcUAAAAAK2JrcK0Mx-kIyWHVRUmVhgZY89q"></div>
+        Contact:<br>
+        <input type="text" placeholder="Contact" name="contact">
+        <p id="contact"></p><br>
 
-  <button type="submit" >Sign Up</button>
-</form>
+        Gender:<br>
+        <select name='gender'>
+            <option value='Male'>Male</option>
+            <option value='Female'>Female</option>
+            <option value='Other'>Other</option>
+            <option value='Do not wish to specify'>Do not wish to specify</option>
+        </select>
+        <p id="gender"></p><br>
 
-<script  src="{% static "/home/js/signup.js" %}"></script>
+        Date Of Birth:<br>
+        <input type="date" placeholder="Date Of Birth" name="date_of_birth">
+        <p id="date_of_birth"></p><br>
+
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <div class="g-recaptcha" id="recaptcha" data-sitekey="6LepHZcUAAAAAK2JrcK0Mx-kIyWHVRUmVhgZY89q"></div>
+
+        <button type="submit" >Sign Up</button>
+    </form>
+</body>
+</html>

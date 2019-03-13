@@ -7,8 +7,10 @@ from django.contrib.auth.hashers import make_password
 from django.core.files.storage import FileSystemStorage
 from .Data_Validation import *
 import os
+from django.core.mail import EmailMessage
 import json
 import urllib
+
 
 def signup(request):
     if request.method == 'GET':
@@ -17,19 +19,11 @@ def signup(request):
     elif request.method == 'POST':
         form = signup_form(request.POST)
         form.is_valid()
-        # print(form.cleaned_data['username'])
-        output = Check_First_Name(form.cleaned_data['first_name'])
-        print(output)
-        if output['check'] == False:
-            print("njsodn")
-            return render(request, 'home/signup.html', {'error_field' : 'first_name', 'message': output['error']})
-            # return render(request, 'home/signup.html')
-
         New_User = CustomUser()
         New_User.username = form.cleaned_data['username']
         New_User.first_name = form.cleaned_data['first_name']
         New_User.last_name = form.cleaned_data['last_name']
-        New_User.email = form.cleaned_data['email']
+        New_User.email = form.cleaned_data['user_email']
         dum = make_password(form.cleaned_data['password'])
         New_User.password = dum
         New_User.contact = form.cleaned_data['contact']
