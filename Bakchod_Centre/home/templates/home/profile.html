@@ -9,7 +9,27 @@
     <img src="{{custom_user.profile_image}}"><br>
     <a href="{{ custom_user.username }}/view_profile">View Profile</a><br>
     <a href="{{ custom_user.username }}/edit">Edit Profile</a><br>
-    <a href="{{ custom_user.username }}/change_password">Change Password</a>
+    <a href="{{ custom_user.username }}/change_password">Change Password</a><br>
+    <br>
+    <form method="post" action="{% url 'home:profile' custom_user.username %}">
+        {% csrf_token %}
+
+        <input type="text" placeholder="Write something to post.." name="post">
+        <button type="submit" >Post</button>
+    </form>
+
+    {% for post in posts %}
+        <p>{{post.post}} @ {{post.post_time}}</p>
+    {% endfor %}
+
+    <br>
+    {% for friend in friend_suggestions %}
+        <form method="post" action="{% url 'home:profile' custom_user.username %}">
+            {% csrf_token %}
+            <p name="friend">{{friend.username}}: {{friend.first_name}} {{friend.last_name}}
+            <button type="submit">Send friend request</button></p>
+        </form>
+    {% endfor %}
 </body>
 
 </html>

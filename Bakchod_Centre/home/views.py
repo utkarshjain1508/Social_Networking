@@ -55,15 +55,26 @@ def signup(request):
 
 def profile(request, userName):
     if request.method == 'POST':
-        pass
+        form = profile_post_form(request.POST)
+        if form.is_valid():
+            user = CustomUser.objects.get(username=userName)
+            newPost = Post()
+            newPost.user = user
+            newPost.post = form.cleaned_data['post']
+            newPost.save()
+            return redirect('/home/'+userName)
     elif request.method == 'GET':
+        form = profile_post_form()
         custom_user = CustomUser.objects.get(username = userName)
-        return render(request, 'home/profile.html', {'custom_user': custom_user})
+        posts = Post.objects.filter(user=custom_user)
+        friend_suggestions = CustomUser.objects.exclude(username = u'userName')
+        return render(request, 'home/profile.html', {'custom_user': custom_user,
+                                                     'posts': posts,
+                                                     'friend_suggestions': friend_suggestions})
 
 def user_edit(request, userName):
     if request.method == 'POST':
         form = user_edit_form(request.POST, request.FILES)
-        print(form.errors)
         if form.is_valid():
             Edit_User = CustomUser.objects.get(username = userName)
             Edit_User.username = form.cleaned_data['username']

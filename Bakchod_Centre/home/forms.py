@@ -33,3 +33,6 @@ class change_password_form(forms.Form):
     old_password = forms.CharField(label='old_password', max_length=100)
     new_password = forms.CharField(label='new_password', max_length=100)
     confirm_password = forms.CharField(label='confirm_password', max_length=100)
+
+class profile_post_form(forms.Form):
+    post = forms.CharField(label='post', max_length=1000)
