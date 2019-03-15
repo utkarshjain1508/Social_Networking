@@ -48,6 +48,13 @@ def signup(request):
 
         if result['success']:
             New_User.save()
+            other_users = CustomUser.objects.exclude(username = New_User.username)
+            for user_temp in other_users:
+                newconnection = Connection(user=New_User, friend=user_temp, status="null")
+                newconnection.save()
+                newconnection2 = Connection(user=user_temp, friend=New_User, status="null")
+                newconnection2.save()
+
             return redirect('/home/')
         else:
             return render(request, 'home/signup.html', {'error_field' : 'recaptcha', 'message': 'Invalid reCAPTCHA. Please try again.'})
@@ -67,7 +74,7 @@ def profile(request, userName):
         form = profile_post_form()
         custom_user = CustomUser.objects.get(username = userName)
         posts = Post.objects.filter(user=custom_user)
-        friend_suggestions = CustomUser.objects.exclude(username = u'userName')
+        friend_suggestions = CustomUser.objects.exclude(username = userName)
         return render(request, 'home/profile.html', {'custom_user': custom_user,
                                                      'posts': posts,
                                                      'friend_suggestions': friend_suggestions})
