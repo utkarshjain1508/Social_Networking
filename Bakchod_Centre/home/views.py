@@ -72,12 +72,12 @@ def profile(request, userName):
             return redirect('/home/'+userName)
     elif request.method == 'GET':
         form = profile_post_form()
-        custom_user = CustomUser.objects.get(username = userName)
+        custom_user = CustomUser.objects.get(username=userName)
         posts = Post.objects.filter(user=custom_user)
-        friend_suggestions = CustomUser.objects.exclude(username = userName)
+        connections = Connection.objects.filter(user=custom_user)
         return render(request, 'home/profile.html', {'custom_user': custom_user,
                                                      'posts': posts,
-                                                     'friend_suggestions': friend_suggestions})
+                                                     'connections': connections})
 
 def user_edit(request, userName):
     if request.method == 'POST':
@@ -166,3 +166,12 @@ def user_view_profile(request, userName):
         return render(request, 'home/view_profile.html', {'user': user})
     elif request.method == 'POST':
         pass
+
+def send_requests(request, userName):
+    pass
+
+def pending_requests(request, userName):
+    pass
+
+def confirmed_requests(request, userName):
+    pass
