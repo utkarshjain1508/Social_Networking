@@ -35,30 +35,38 @@ def signup(request):
         New_User.date_of_birth = form.cleaned_data['date_of_birth']
 
         # Recaptcha Validation
-        recaptcha_response = request.POST.get('g-recaptcha-response')
-        url = 'https://www.google.com/recaptcha/api/siteverify'
-        values = {
-                'secret': '6LepHZcUAAAAABUgoqJHSzWAlb1azB6TiCWHXgd4',
-                'response': recaptcha_response
-        }
-        data = urllib.parse.urlencode(values).encode()
-        req =  urllib.request.Request(url, data=data)
-        response = urllib.request.urlopen(req)
-        result = json.loads(response.read().decode())
+        # recaptcha_response = request.POST.get('g-recaptcha-response')
+        # url = 'https://www.google.com/recaptcha/api/siteverify'
+        # values = {
+        #         'secret': '6LepHZcUAAAAABUgoqJHSzWAlb1azB6TiCWHXgd4',
+        #         'response': recaptcha_response
+        # }
+        # data = urllib.parse.urlencode(values).encode()
+        # req =  urllib.request.Request(url, data=data)
+        # response = urllib.request.urlopen(req)
+        # result = json.loads(response.read().decode())
+        #
+        # if result['success']:
+        #     New_User.save()
+        #     other_users = CustomUser.objects.exclude(username = New_User.username)
+        #     for user_temp in other_users:
+        #         newconnection = Connection(user=New_User, friend=user_temp, status="null")
+        #         newconnection.save()
+        #         newconnection2 = Connection(user=user_temp, friend=New_User, status="null")
+        #         newconnection2.save()
+        #
+        #     return redirect('/home/')
+        # else:
+        #     return render(request, 'home/signup.html', {'error_field' : 'recaptcha', 'message': 'Invalid reCAPTCHA. Please try again.'})
+        New_User.save()
+        other_users = CustomUser.objects.exclude(username = New_User.username)
+        for user_temp in other_users:
+            newconnection = Connection(user=New_User, friend=user_temp, status="null")
+            newconnection.save()
+            newconnection2 = Connection(user=user_temp, friend=New_User, status="null")
+            newconnection2.save()
 
-        if result['success']:
-            New_User.save()
-            other_users = CustomUser.objects.exclude(username = New_User.username)
-            for user_temp in other_users:
-                newconnection = Connection(user=New_User, friend=user_temp, status="null")
-                newconnection.save()
-                newconnection2 = Connection(user=user_temp, friend=New_User, status="null")
-                newconnection2.save()
-
-            return redirect('/home/')
-        else:
-            return render(request, 'home/signup.html', {'error_field' : 'recaptcha', 'message': 'Invalid reCAPTCHA. Please try again.'})
-
+        return redirect('/home/')
 
 def profile(request, userName):
     if request.method == 'POST':
@@ -168,10 +176,61 @@ def user_view_profile(request, userName):
         pass
 
 def send_requests(request, userName):
-    pass
+    if request.method == 'POST':
+        form = send_requests_form(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            print("Chirag")
+            user = CustomUser.objects.get(username=userName)
+            friend_username = form.cleaned_data['friend']
+            friend = CustomUser.objects.get(username=friend_username)
+            newconnection = Connection.objects.get(user=user,friend=friend)
+            newconnection.status = "sent"
+            newconnection.save()
+            newconnection2 = Connection.objects.get(user=friend,friend=user)
+            newconnection2.status = "pending"
+            newconnection2.save()
+            #null, pending, sent, confirmed
+            return redirect('/home/'+userName)
 
 def pending_requests(request, userName):
-    pass
+
+    if request.method == 'POST':
+        form = pending_requests_form(request.POST)
+        if form.is_valid():
+            user = CustomUser.objects.get(username=userName)
+            friend_username = form.cleaned_data['friend']
+            friend = CustomUser.objects.get(username=friend_username)
+            action = form.cleaned_data['action']
+            if action == 'confirm':
+                newconnection = Connection.objects.get(user=user,friend=friend)
+                newconnection.status = "confirmed"
+                newconnection.save()
+                newconnection2 = Connection.objects.get(user=friend,friend=user)
+                newconnection2.status = "confirmed"
+                newconnection2.save()
+            elif action == 'delete':
+                newconnection = Connection.objects.get(user=user,friend=friend)
+                newconnection.status = "null"
+                newconnection.save()
+                newconnection2 = Connection.objects.get(user=friend,friend=user)
+                newconnection2.status = "null"
+                newconnection2.save()
+            return redirect('/home/'+userName)
+
 
 def confirmed_requests(request, userName):
-    pass
+    if request.method == 'POST':
+        form = confirmed_requests_form(request.POST)
+        if form.is_valid():
+            user = CustomUser.objects.get(username=userName)
+            friend_username = form.cleaned_data['friend']
+            friend = CustomUser.objects.get(username=friend_username)
+            newconnection = Connection.objects.get(user=user,friend=friend)
+            newconnection.status = "null"
+            newconnection.save()
+            newconnection2 = Connection.objects.get(user=friend,friend=user)
+            newconnection2.status = "null"
+            newconnection2.save()
+            #null, pending, sent, confirmed
+            return redirect('/home/'+userName)

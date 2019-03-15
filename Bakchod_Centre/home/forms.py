@@ -36,3 +36,13 @@ class change_password_form(forms.Form):
 
 class profile_post_form(forms.Form):
     post = forms.CharField(label='post', max_length=1000)
+
+class send_requests_form(forms.Form):
+    friend = forms.CharField(label='friend', max_length=1000)
+
+class pending_requests_form(forms.Form):
+    friend = forms.CharField(label='friend', max_length=1000)
+    action = forms.CharField(label='action', max_length=100)
+
+class confirmed_requests_form(forms.Form):
+    friend = forms.CharField(label='friend', max_length=1000)

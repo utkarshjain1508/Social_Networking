@@ -29,7 +29,7 @@
         <form method="post" action="{% url 'home:send_requests' custom_user.username %}">
             {% csrf_token %}
             {% if connection.status == "null" %}
-                <p name="friend" hidden>{{connection.friend.username}}</p>
+                <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
                 <p>{{connection.friend.first_name}} {{connection.friend.last_name}}
                 <button type="submit">Send friend request</button></p>
             {% endif %}
@@ -38,24 +38,23 @@
 
     <!-- Pending friend requests -->
     {% for connection in connections %}
-        <form method="post" action="{% url 'home:profile' custom_user.username %}">
+        <form method="post" action="{% url 'home:pending_requests' custom_user.username %}">
             {% csrf_token %}
             {% if connection.status == "pending" %}
-                <p name="friend" hidden>{{connection.friend.username}}</p>
+                <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
                 <p>{{connection.friend.first_name}} {{connection.friend.last_name}}</p>
                 <select name='action'>
-                    <option value='Confirm'></option>
-                    <option value='Delete'></option>
+                    <option value='confirm'>Confirm</option>
+                    <option value='delete'>Delete</option>
                 </select>
                 <button type="submit">Submit</button></p>
             {% endif %}
         </form>
     {% endfor %}
 
-    <!-- Sent friend requests -->
+    <!-- Sent friend requests -->Gupta
     {% for connection in connections %}
-        {% if connection.friend.status == "sent" %}
-            <p hidden>{{connection.friend.username}}</p>
+        {% if connection.status == "sent" %}
             <p>{{connection.friend.first_name}} {{connection.friend.last_name}}</p>
             <p>Friend Request sent</p>
         {% endif %}
@@ -63,10 +62,10 @@
 
     <!-- Confirmed friend requests -->
     {% for connection in connections %}
-        <form method="post" action="{% url 'home:profile' custom_user.username %}">
+        <form method="post" action="{% url 'home:confirmed_requests' custom_user.username %}">
             {% csrf_token %}
             {% if connection.status == "confirmed" %}
-                <p name="friend">{{connection.friend.username}}</p>
+                <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
                 <p>{{connection.friend.first_name}} {{connection.friend.last_name}}</p>
                 <button type="submit">Unfriend</button></p>
             {% endif %}
