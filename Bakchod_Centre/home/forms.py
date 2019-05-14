@@ -17,7 +17,7 @@ class user_edit_form(forms.Form):
     first_name = forms.CharField(label='first_name', max_length=100)
     last_name = forms.CharField(label='last_name', max_length=100)
     username = forms.CharField(label='username', max_length=100)
-    email = forms.CharField(label='email', max_length=100)
+    user_email = forms.CharField(label='user_email', max_length=100)
     contact = forms.IntegerField(label='contact')
     profilePic = forms.ImageField(label='profile_image', required=False)
     date_of_birth = forms.DateField(label='date_of_birth')

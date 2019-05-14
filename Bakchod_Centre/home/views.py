@@ -19,7 +19,8 @@ def signup(request):
         email_list = CustomUser.objects.values_list('email')
         username_list_json = json.dumps(list(username_list), cls=DjangoJSONEncoder)
         email_list_json = json.dumps(list(email_list), cls=DjangoJSONEncoder)
-        return render(request, 'home/signup.html', {'username_list': username_list_json, 'email_list': email_list_json})
+        return render(request, 'home/signup.html', {'username_list': username_list_json,
+                                                    'email_list': email_list_json})
     elif request.method == 'POST':
         form = signup_form(request.POST)
         form.is_valid()
@@ -35,36 +36,30 @@ def signup(request):
         New_User.date_of_birth = form.cleaned_data['date_of_birth']
 
         # Recaptcha Validation
-        # recaptcha_response = request.POST.get('g-recaptcha-response')
-        # url = 'https://www.google.com/recaptcha/api/siteverify'
-        # values = {
-        #         'secret': '6LepHZcUAAAAABUgoqJHSzWAlb1azB6TiCWHXgd4',
-        #         'response': recaptcha_response
-        # }
-        # data = urllib.parse.urlencode(values).encode()
-        # req =  urllib.request.Request(url, data=data)
-        # response = urllib.request.urlopen(req)
-        # result = json.loads(response.read().decode())
-        #
-        # if result['success']:
-        #     New_User.save()
-        #     other_users = CustomUser.objects.exclude(username = New_User.username)
-        #     for user_temp in other_users:
-        #         newconnection = Connection(user=New_User, friend=user_temp, status="null")
-        #         newconnection.save()
-        #         newconnection2 = Connection(user=user_temp, friend=New_User, status="null")
-        #         newconnection2.save()
-        #
-        #     return redirect('/home/')
-        # else:
-        #     return render(request, 'home/signup.html', {'error_field' : 'recaptcha', 'message': 'Invalid reCAPTCHA. Please try again.'})
-        New_User.save()
-        other_users = CustomUser.objects.exclude(username = New_User.username)
-        for user_temp in other_users:
-            newconnection = Connection(user=New_User, friend=user_temp, status="null")
-            newconnection.save()
-            newconnection2 = Connection(user=user_temp, friend=New_User, status="null")
-            newconnection2.save()
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        values = {
+                'secret': '6LepHZcUAAAAABUgoqJHSzWAlb1azB6TiCWHXgd4',
+                'response': recaptcha_response
+        }
+        data = urllib.parse.urlencode(values).encode()
+        req =  urllib.request.Request(url, data=data)
+        response = urllib.request.urlopen(req)
+        result = json.loads(response.read().decode())
+
+        if result['success']:
+            New_User.save()
+            other_users = CustomUser.objects.exclude(username = New_User.username)
+            for user_temp in other_users:
+                newconnection = Connection(user=New_User, friend=user_temp, status="null")
+                newconnection.save()
+                newconnection2 = Connection(user=user_temp, friend=New_User, status="null")
+                newconnection2.save()
+
+            return redirect('/home/')
+        else:
+            return render(request, 'home/signup.html', {'error_field' : 'recaptcha',
+                                                        'message': 'Invalid reCAPTCHA. Please try again.'})
 
         return redirect('/home/')
 
@@ -90,39 +85,46 @@ def profile(request, userName):
 def user_edit(request, userName):
     if request.method == 'POST':
         form = user_edit_form(request.POST, request.FILES)
-        if form.is_valid():
-            Edit_User = CustomUser.objects.get(username = userName)
-            Edit_User.username = form.cleaned_data['username']
-            Edit_User.first_name = form.cleaned_data['first_name']
-            Edit_User.last_name = form.cleaned_data['last_name']
-            Edit_User.email = form.cleaned_data['email']
-            Edit_User.contact = form.cleaned_data['contact']
-            Edit_User.date_of_birth = form.cleaned_data['date_of_birth']
-            Edit_User.gender = form.cleaned_data['gender']
-            Edit_User.education = form.cleaned_data['education']
-            Edit_User.education_place = form.cleaned_data['education_place']
-            Edit_User.job = form.cleaned_data['job']
-            Edit_User.job_place = form.cleaned_data['job_place']
-            Edit_User.current_location = form.cleaned_data['current_location']
-            Edit_User.relationship_status = form.cleaned_data['relationship_status']
+        print(form.errors)
+        form.is_valid()
+        Edit_User = CustomUser.objects.get(username = userName)
+        Edit_User.username = form.cleaned_data['username']
+        Edit_User.first_name = form.cleaned_data['first_name']
+        Edit_User.last_name = form.cleaned_data['last_name']
+        Edit_User.email = form.cleaned_data['user_email']
+        Edit_User.contact = form.cleaned_data['contact']
+        Edit_User.date_of_birth = form.cleaned_data['date_of_birth']
+        Edit_User.gender = form.cleaned_data['gender']
+        Edit_User.education = form.cleaned_data['education']
+        Edit_User.education_place = form.cleaned_data['education_place']
+        Edit_User.job = form.cleaned_data['job']
+        Edit_User.job_place = form.cleaned_data['job_place']
+        Edit_User.current_location = form.cleaned_data['current_location']
+        Edit_User.relationship_status = form.cleaned_data['relationship_status']
 
-            if request.FILES.get('profile_image', False):
-                try:
-                    os.remove("."+Edit_User.profile_image.name)
-                except:
-                    pass
-                profile_image = request.FILES['profile_image']
-                fs = FileSystemStorage()
-                filename = fs.save("./home/ProfileImage/"+userName+".jpg", profile_image)
-                Edit_User.profile_image = fs.url(filename)
+        if request.FILES.get('profile_image', False):
+            try:
+                os.remove("."+Edit_User.profile_image.name)
+            except:
+                pass
+            profile_image = request.FILES['profile_image']
+            fs = FileSystemStorage()
+            filename = fs.save("./home/ProfileImage/"+userName+".jpg", profile_image)
+            Edit_User.profile_image = fs.url(filename)
 
-            Edit_User.save()
-            return redirect('/home/'+userName)
+        Edit_User.save()
+        return redirect('/home/'+userName)
 
     elif request.method == 'GET':
         newForm = user_edit_form()
         custom_user = CustomUser.objects.get(username = userName)
-        return render(request, 'home/user_edit.html', {'custom_user': custom_user})
+        username_list = CustomUser.objects.values_list('username')
+        email_list = CustomUser.objects.values_list('email')
+        username_list_json = json.dumps(list(username_list), cls=DjangoJSONEncoder)
+        email_list_json = json.dumps(list(email_list), cls=DjangoJSONEncoder)
+        return render(request, 'home/user_edit.html', {'custom_user': custom_user,
+                                                       'username_list': username_list_json,
+                                                       'email_list': email_list_json})
 
 
 def login_user(request):

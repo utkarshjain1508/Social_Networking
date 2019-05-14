@@ -1,184 +1,26 @@
 <!DOCTYPE html>
-{% if error_message %}
-<h3> {{ error_message }} </h3>
-{% endif %}
 <html>
 <head>
+    {% load staticfiles %}
     <script>
-    function hasWhiteSpace(s)
-    {
-        return s.indexOf(' ') >= 0;
-    }
-    function validateForm() {
-        var first_name = document.forms["myForm"]["first_name"].value;
-        var last_name = document.forms["myForm"]["last_name"].value;
-        var username = document.forms["myForm"]["username"].value;
-        var user_email = document.forms["myForm"]["user_email"].value;
-        var password = document.forms["myForm"]["password"].value;
-        var confirm_password = document.forms["myForm"]["confirm_password"].value;
-        var contact = document.forms["myForm"]["contact"].value;
-
         var username_list = {{username_list|safe}};
         var email_list = {{email_list|safe}};
-
-
-
-        first_name = first_name.trim();
-        last_name = last_name.trim();
-        username = username.trim();
-        user_email = user_email.trim();
-        contact = contact.trim();
-
-        // Regular Expressions
-        var reg_letters = /^[A-Za-z]+$/;
-        var reg_username = /^[a-zA-Z0-9\_]+$/;
-        var reg_user_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        var reg_contact = /^[0-9]{10}$/;
-
-
-
-        if (first_name == "") {
-            document.getElementById('first_name').innerHTML = "Please enter your First Name";
-            return false;
+        var response;
+        function refreshCaptchaResponse(){
+            alert("yes");
+            response = grecaptcha.getResponse();
+            alert(response);
+            return true;
         }
-        else {
-            document.getElementById('first_name').innerHTML = "";
-        }
-
-        if (!(first_name.match(reg_letters))) {
-            document.getElementById('first_name').innerHTML = "First Name can contain only alphabets";
-            return false;
-        }
-        else {
-            document.getElementById('first_name').innerHTML = "";
-        }
-
-        if (last_name == "") {
-            document.getElementById('last_name').innerHTML = "Please enter your Last Name";
-            return false;
-        }
-        else {
-            document.getElementById('last_name').innerHTML = "";
-        }
-
-        if (!(last_name.match(reg_letters))) {
-            document.getElementById('last_name').innerHTML = "Last Name can contain only alphabets";
-            return false;
-        }
-        else {
-            document.getElementById('last_name').innerHTML = "";
-        }
-
-        if (username == "") {
-            document.getElementById('username').innerHTML = "Please enter your Username";
-            return false;
-        }
-        else {
-            document.getElementById('username').innerHTML = "";
-        }
-
-        if (!(username.match(reg_username))) {
-            document.getElementById('username').innerHTML = "UserName can contain only alphanumeric characters and Underscore";
-            return false;
-        }
-        else {
-            document.getElementById('username').innerHTML = "";
-        }
-
-        for (i = 0; i < username_list.length; i++) {
-            if(username_list[i] == username){
-                document.getElementById('username').innerHTML = "This username already exists.";
-                return false;
-            }
-        }
-
-        if (user_email == "") {
-            document.getElementById('user_email').innerHTML = "Please enter your email";
-            return false;
-        }
-        else {
-            document.getElementById('user_email').innerHTML = "";
-        }
-
-        if (!(user_email.match(reg_user_email))) {
-            document.getElementById('user_email').innerHTML = "Invalid Email Address";
-            return false;
-        }
-        else {
-            document.getElementById('user_email').innerHTML = "";
-        }
-
-        for (i = 0; i < email_list.length; i++) {
-            if(email_list[i] == user_email){
-                document.getElementById('user_email').innerHTML = "This email is already used by another account.";
-                return false;
-            }
-        }
-
-        if (password == "") {
-            document.getElementById('password').innerHTML = "Please enter the password";
-            return false;
-        }
-        else {
-            document.getElementById('password').innerHTML = "";
-        }
-
-        if (hasWhiteSpace(password)){
-            document.getElementById('password').innerHTML = "Password can't contain white spaces";
-            return false;
-        }
-        else {
-            document.getElementById('password').innerHTML = "";
-        }
-
-        if (password.length < 8) {
-            document.getElementById('password').innerHTML = "Password should contain a minimum of 8 characters";
-            return false;
-        }
-        else {
-            document.getElementById('password').innerHTML = "";
-        }
-
-        if (confirm_password == "") {
-            document.getElementById('confirm_password').innerHTML = "Please Confirm the password";
-            return false;
-        }
-        else {
-            document.getElementById('confirm_password').innerHTML = "";
-        }
-
-        if (password != confirm_password) {
-            document.getElementById('confirm_password').innerHTML = "Password and Confirm Password not matching";
-            return false;
-        }
-        else {
-            document.getElementById('confirm_password').innerHTML = "";
-        }
-
-        if (contact == "") {
-            document.getElementById('contact').innerHTML = "Please enter your Contact Number";
-            return false;
-        }
-        else {
-            document.getElementById('contact').innerHTML = "";
-        }
-
-        if (!(contact.match(reg_contact))) {
-            document.getElementById('contact').innerHTML = "Contact No. should contain exactly 10 digits";
-            return false;
-        }
-        else {
-            document.getElementById('contact').innerHTML = "";
-        }
-        return true;
-    }
     </script>
+    <script src="{% static 'home/js/signup_validation.js' %}"></script>
 </head>
+
 <body>
 
     <h1> This is the Signup page </h1>
 
-    <form name="myForm" onsubmit="return validateForm()" method="post" action="{% url 'home:signup' %}">
+    <form name="myForm" onsubmit="return refreshCaptchaResponse() && validateForm(username_list, email_list, response)" method="post" action="{% url 'home:signup' %}">
         {% csrf_token %}
 
         First Name:<br>
@@ -196,7 +38,7 @@
         Email:<br>
         <input type="text" placeholder="Email" name="user_email">
         <p id="user_email"></p><br>
-        <br>
+
         Password:<br>
         <input type="text" placeholder="Type Password" name="password">
         <p id="password"></p><br>
@@ -224,7 +66,8 @@
         <p id="date_of_birth"></p><br>
 
         <script src='https://www.google.com/recaptcha/api.js'></script>
-        <div class="g-recaptcha" id="recaptcha" data-sitekey="6LepHZcUAAAAAK2JrcK0Mx-kIyWHVRUmVhgZY89q"></div>
+        <div class="g-recaptcha" data-sitekey="6LepHZcUAAAAAK2JrcK0Mx-kIyWHVRUmVhgZY89q" data-callback="verifyCaptcha"></div>
+        <p id="g-recaptcha-error"></p>
 
         <button type="submit" >Sign Up</button>
     </form>
