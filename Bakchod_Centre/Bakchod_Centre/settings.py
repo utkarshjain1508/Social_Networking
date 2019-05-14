@@ -38,6 +38,7 @@ EMAIL_HOST_PASSWORD = 'qwerty@123'
 
 INSTALLED_APPS = [
     # 'src',
+    'channels',
     'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'messenger',
+
     # 'user.apps.UsersConfig'
 ]
 
@@ -79,6 +82,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Bakchod_Centre.wsgi.application'
+# Bakchod_Centre/settings.py
+# Channels
+ASGI_APPLICATION = 'Bakchod_Centre.routing.application'
 
 
 # Database
