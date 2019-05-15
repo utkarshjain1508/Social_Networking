@@ -6,16 +6,20 @@
     <title>Chat Room</title>
 </head>
 <body>
+    {% for connection in connections %}
+        <a href="{% url 'messenger:room' sender_id_json connection.friend.id %}">{{connection.friend.username}}</a><br>
+    {% endfor %}
     <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
     <input id="chat-message-input" type="text" size="100"/><br/>
     <input id="chat-message-submit" type="button" value="Send"/>
 </body>
 <script>
-    var roomName = {{ room_name_json }};
+    var sender_id = {{ sender_id_json }};
+    var receiver_id = {{ receiver_id_json }};
 
     var chatSocket = new WebSocket(
         'ws://' + window.location.host +
-        '/ws/chat/' + roomName + '/');
+        '/ws/messenger/' + sender_id + '/' + receiver_id);
 
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);

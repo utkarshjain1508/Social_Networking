@@ -1,8 +1,11 @@
 # messenger/urls.py
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
+app_name = 'messenger'
+
 urlpatterns = [
-    url(r'^(?P<room_name>[^/]+)/$', views.room, name='room'),
+    path('<slug:sender_id>', views.base, name='base'),
+    path('<slug:sender_id>/<slug:receiver_id>', views.room, name='room'),
 ]

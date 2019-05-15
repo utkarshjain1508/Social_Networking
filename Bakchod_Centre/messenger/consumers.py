@@ -2,10 +2,14 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
+import hashlib
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        sender_id = self.scope['url_route']['kwargs']['sender_id']
+        receiver_id = self.scope['url_route']['kwargs']['receiver_id']
+
+        self.room_name = min(sender_id, receiver_id)+'-'+max(sender_id, receiver_id)
         self.room_group_name = 'chat_%s' % self.room_name
 
         # Join room group

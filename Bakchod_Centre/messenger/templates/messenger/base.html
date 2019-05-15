@@ -1,0 +1,3 @@
+{% for connection in connections %}
+    <a href="{% url 'messenger:room' sender_id_json connection.friend.id %}">{{connection.friend.username}}</a>
+{% endfor %}
