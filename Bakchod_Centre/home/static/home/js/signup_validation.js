@@ -7,7 +7,6 @@ function verifyCaptcha(){
 }
 
 function validateForm(username_list, email_list, response){
-    alert(response);
     var first_name = document.forms["myForm"]["first_name"].value;
     var last_name = document.forms["myForm"]["last_name"].value;
     var username = document.forms["myForm"]["username"].value;

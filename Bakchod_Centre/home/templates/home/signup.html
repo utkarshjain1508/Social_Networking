@@ -7,69 +7,217 @@
         var email_list = {{email_list|safe}};
         var response;
         function refreshCaptchaResponse(){
-            alert("yes");
             response = grecaptcha.getResponse();
-            alert(response);
             return true;
         }
     </script>
     <script src="{% static 'home/js/signup_validation.js' %}"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Signup</title>
+
+    <!-- Icons font CSS-->
+    <link href="{% static 'home/signup/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'home/signup/vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'home/signup/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'home/signup/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'home/signup/css/main.css' %}" rel="stylesheet" media="all">
 </head>
 
 <body>
 
-    <h1> This is the Signup page </h1>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">Signup</h2>
+                </div>
+                <div class="card-body">
 
-    <form name="myForm" onsubmit="return refreshCaptchaResponse() && validateForm(username_list, email_list, response)" method="post" action="{% url 'home:signup' %}">
-        {% csrf_token %}
+                    <form name="myForm" onsubmit="return refreshCaptchaResponse() && validateForm(username_list, email_list, response)" method="post" action="{% url 'home:signup' %}">
+                        {% csrf_token %}
 
-        First Name:<br>
-        <input type="text" placeholder="First Name" name="first_name">
-        <p id="first_name"></p><br>
+                        <div class="form-row m-b-55">
+                            <div class="name">Name</div>
+                            <div class="value">
+                                <div class="row row-space">
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="first_name">
+                                            <p style="color: red;" id="first_name"></p>
 
-        Last Name:<br>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="last_name">
+                                            <p style="color: red;" id="last_name"></p>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Username</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="username">
+                                    <p style="color: red;" id="username"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Email</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="email" name="user_email">
+                                    <p style="color: red;" id="user_email"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Contact</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="contact">
+                                    <p style="color: red;" id="contact"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Date Of Birth</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="date" name="date_of_birth">
+                                    <p style="color: red;" id="date_of_birth"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Gender</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name='gender'>
+                                            <option disabled="disabled" selected="selected">Choose option</option>
+                                            <option value='Male'>Male</option>
+                                            <option value='Female'>Female</option>
+                                            <option value='Other'>Other</option>
+                                            <option value='Do not wish to specify'>Do not wish to specify</option>
+                                        </select>
+                                        <p style="color: red;" id="gender"></p>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Password</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="password" name="password">
+                                    <p style="color: red;" id="password"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Confirm Password</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="password" name="confirm_password">
+                                    <p style="color: red;" id="confirm_password"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <script src='https://www.google.com/recaptcha/api.js'></script>
+                            <div class="g-recaptcha" data-sitekey="6LepHZcUAAAAAK2JrcK0Mx-kIyWHVRUmVhgZY89q" data-callback="verifyCaptcha"></div>
+                            <p id="g-recaptcha-error"></p>
+                        </div>
+                        <div>
+                            <button class="btn btn--radius-2 btn--red" type="submit">Signup</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <h1> This is the Signup page </h1> -->
+
+    <!-- <form name="myForm" onsubmit="return refreshCaptchaResponse() && validateForm(username_list, email_list, response)" method="post" action="{% url 'home:signup' %}"> -->
+        <!-- {% csrf_token %} -->
+
+        <!-- First Name:<br> -->
+        <!-- <input type="text" placeholder="First Name" name="first_name"> -->
+        <!-- <p id="first_name"></p><br> -->
+
+        <!-- Last Name:<br>
         <input type="text" placeholder="Last Name" name="last_name">
-        <p id="last_name"></p><br>
+        <p id="last_name"></p><br> -->
 
-        User Name:<br>
+        <!-- User Name:<br>
         <input type="text" placeholder="User Name" name="username">
-        <p id="username"></p><br>
+        <p id="username"></p><br> -->
 
-        Email:<br>
+        <!-- Email:<br>
         <input type="text" placeholder="Email" name="user_email">
-        <p id="user_email"></p><br>
+        <p id="user_email"></p><br> -->
 
-        Password:<br>
+        <!-- Password:<br>
         <input type="text" placeholder="Type Password" name="password">
-        <p id="password"></p><br>
+        <p id="password"></p><br> -->
 
-        Confirm Password:<br>
+        <!-- Confirm Password:<br>
         <input type="text" placeholder="Confirm Password" name="confirm_password">
-        <p id="confirm_password">
-        </p>
+        <p id="confirm_password"></p> -->
 
-        Contact:<br>
+        <!-- Contact:<br>
         <input type="text" placeholder="Contact" name="contact">
-        <p id="contact"></p><br>
+        <p id="contact"></p><br> -->
 
-        Gender:<br>
+        <!-- Gender:<br>
         <select name='gender'>
             <option value='Male'>Male</option>
             <option value='Female'>Female</option>
             <option value='Other'>Other</option>
             <option value='Do not wish to specify'>Do not wish to specify</option>
         </select>
-        <p id="gender"></p><br>
+        <p id="gender"></p><br> -->
 
-        Date Of Birth:<br>
+        <!-- Date Of Birth:<br>
         <input type="date" placeholder="Date Of Birth" name="date_of_birth">
-        <p id="date_of_birth"></p><br>
+        <p id="date_of_birth"></p><br> -->
 
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <!-- <script src='https://www.google.com/recaptcha/api.js'></script>
         <div class="g-recaptcha" data-sitekey="6LepHZcUAAAAAK2JrcK0Mx-kIyWHVRUmVhgZY89q" data-callback="verifyCaptcha"></div>
-        <p id="g-recaptcha-error"></p>
+        <p id="g-recaptcha-error"></p> -->
 
-        <button type="submit" >Sign Up</button>
-    </form>
+        <!-- <button type="submit" >Sign Up</button>
+    </form> -->
+
+    <!-- Jquery JS-->
+    <script src="{% static 'home/signup/vendor/jquery/jquery.min.js' %}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'home/signup/vendor/select2/select2.min.js' %}"></script>
+    <script src="{% static 'home/signup/vendor/datepicker/moment.min.js' %}"></script>
+    <script src="{% static 'home/signup/vendor/datepicker/daterangepicker.js' %}"></script>
+
+    <!-- Main JS-->
+    <script src="{% static 'home/signup/js/global.js' %}"></script>
+
 </body>
 </html>
