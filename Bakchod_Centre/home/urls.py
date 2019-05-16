@@ -16,4 +16,5 @@ urlpatterns = [
     path('<slug:userName>/send_requests', views.send_requests, name='send_requests'),
     path('<slug:userName>/pending_requests', views.pending_requests, name='pending_requests'),
     path('<slug:userName>/confirmed_requests', views.confirmed_requests, name='confirmed_requests'),
+    path('<slug:userName>/friends', views.friends, name='friends'),
 ]

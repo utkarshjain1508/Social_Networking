@@ -1,0 +1,182 @@
+<html>
+
+<head>
+    <title>friendverse</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="My Resume Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+    	SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--mobile apps-->
+    <!--Custom Theme files-->
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="{% static 'home/profile/css/bootstrap.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'home/profile/css/style.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{% static 'home/profile/css/swipebox.css' %}">
+    <!--//Custom Theme files-->
+    <!--js-->
+    <script src="{% static 'home/profile/js/jquery-1.11.1.min.js' %}"></script>
+    <!-- //js -->
+    <!--web-fonts-->
+    <link href='//fonts.googleapis.com/css?family=Overlock:400,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <!--//web-fonts-->
+    <!--start-smooth-scrolling-->
+    <script type="text/javascript" src="{% static 'home/profile/js/move-top.js' %}"></script>
+    <script type="text/javascript" src="{% static 'home/profile/js/easing.js' %}"></script>
+    <script type="text/javascript">
+    		jQuery(document).ready(function($) {
+    			$(".scroll").click(function(event){
+    				event.preventDefault();
+    				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+    			});
+    		});
+    </script>
+    <style>
+    /*-- Global Selectors --*/
+a{
+    color:#47649F;
+}
+
+body{
+    font-family:'helvetica';
+}
+
+/*-- Bootstrap Override Style --*/
+
+
+/*-- Content Style --*/
+.post-footer-option li{
+    float:left;
+    margin-right:50px;
+    padding-bottom:15px;
+}
+
+.post-footer-option li a{
+    color:#AFB4BD;
+    font-weight:500;
+    font-size:1.3rem;
+}
+
+.photo-profile{
+    border:1px solid #DDD;
+}
+
+.anchor-username h4{
+    font-weight:bold;
+}
+
+.anchor-time{
+    color:#ADB2BB;
+    font-size:1.2rem;
+}
+
+.post-footer-comment-wrapper{
+    background-color:#F6F7F8;
+}
+</style>
+</head>
+
+<body>
+
+    <div id="home" class="banner">
+		<div class="banner-info">
+			<div class="container">
+				<div class="col-md-4 header-left">
+					<img src="{{custom_user.profile_image}}" alt=""/>
+				</div>
+				<div class="col-md-8 header-right">
+					<h1>{{ custom_user.first_name }} {{ custom_user.last_name }}</h1>
+					<!-- <ul class="address">
+						<li>
+							<ul class="address-text">
+								<li><b>D.O.B</b></li>
+								<li>23-06-1980</li>
+							</ul>
+						</li>
+						<li>
+							<ul class="address-text">
+								<li><b>PHONE </b></li>
+								<li>+00 111 222 3333</li>
+							</ul>
+						</li>
+						<li>
+							<ul class="address-text">
+								<li><b>ADDRESS </b></li>
+								<li>756 global Place, North Sydney, Canada.</li>
+							</ul>
+						</li>
+						<li>
+							<ul class="address-text">
+								<li><b>E-MAIL </b></li>
+								<li><a href="mailto:example@mail.com"> mail@example.com</a></li>
+							</ul>
+						</li>
+						<li>
+							<ul class="address-text">
+								<li><b>WEBSITE </b></li>
+								<li><a href="http://w3layouts.com">www.myresume.com</a></li>
+							</ul>
+						</li>
+					</ul> -->
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+
+    <div class="top-nav wow">
+		<div class="container">
+			<div class="navbar-header logo">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					Menu
+				</button>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<div class="menu">
+					<ul class="nav navbar">
+                        <li><a href="{% url 'home:profile' custom_user.username %}">Home</a></li>
+                        <li><a href="{% url 'home:friends' custom_user.username %}">Friends</a></li>
+						<li><a href="{% url 'home:user_view_profile' custom_user.username %}">View Profile</a></li>
+						<li><a href="{% url 'home:user_edit' custom_user.username %}">Edit Profile</a></li>
+						<li><a href="{% url 'home:change_password' custom_user.username %}">Change Password</a></li>
+                    </ul>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    {% block content %}{% endblock %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+
+            $().UItoTop({ easingType: 'easeOutQuart' });
+
+        });
+    </script>
+    <!--//smooth-scrolling-of-move-up-->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% load staticfiles %}
+    <script src="{% static 'home/profile/js/bootstrap.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+
+    </html>

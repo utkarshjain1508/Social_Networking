@@ -1,79 +1,93 @@
-<html>
+{% extends "home/base.html" %}
 
-<head>
-    <title>BackchodCenter</title>
-</head>
+    {% block content %}
+    <div class="container-fluid">
+      <div class="row" style="padding: 5em 5em;">
 
-<body>
-    <h1>{{ custom_user.first_name }} {{ custom_user.last_name }}</h1>
-    <img src="{{custom_user.profile_image}}"><br>
-    <a href="{{ custom_user.username }}/view_profile">View Profile</a><br>
-    <a href="{{ custom_user.username }}/edit">Edit Profile</a><br>
-    <a href="{{ custom_user.username }}/change_password">Change Password</a><br>
-    <br>
-    <form method="post" action="{% url 'home:profile' custom_user.username %}">
-        {% csrf_token %}
-
-        <input type="text" placeholder="Write something to post.." name="post">
-        <button type="submit" >Post</button>
-    </form>
-
-    {% for post in posts %}
-        <p>{{post.post}} @ {{post.post_time}}</p>
-    {% endfor %}
-
-    <br>
-
-    <!-- Null friend requests -->
-    {% for connection in connections %}
-        <form method="post" action="{% url 'home:send_requests' custom_user.username %}">
+        <form method="post" action="{% url 'home:profile' custom_user.username %}">
             {% csrf_token %}
-            {% if connection.status == "null" %}
-                <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
-                <p>{{connection.friend.first_name}} {{connection.friend.last_name}}
-                <button type="submit">Send friend request</button></p>
-            {% endif %}
-        </form>
-    {% endfor %}
+                <div class="input-group">
+                  <input type="text" class="form-control" name="post"></input>
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Post</button>
+                  </span>
+                </div>
+            </div>
 
-    <!-- Pending friend requests -->
-    {% for connection in connections %}
-        <form method="post" action="{% url 'home:pending_requests' custom_user.username %}">
-            {% csrf_token %}
-            {% if connection.status == "pending" %}
-                <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
-                <p>{{connection.friend.first_name}} {{connection.friend.last_name}}</p>
-                <select name='action'>
-                    <option value='confirm'>Confirm</option>
-                    <option value='delete'>Delete</option>
-                </select>
-                <button type="submit">Submit</button></p>
-            {% endif %}
-        </form>
-    {% endfor %}
+            {% for post in posts %}
+            <!-- <div class="row" style="padding: 1em 5em;">
+                <div class="card w-75">
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.user}} @ {{post.post_time}}</h5>
+                        <p class="card-text">{{post.post}}</p>
+                        <a href="#" class="btn btn-primary">Button</a>
+                    </div>
+                </div>
 
-    <!-- Sent friend requests -->Gupta
-    {% for connection in connections %}
-        {% if connection.status == "sent" %}
-            <p>{{connection.friend.first_name}} {{connection.friend.last_name}}</p>
-            <p>Friend Request sent</p>
-        {% endif %}
-    {% endfor %}
+            </div> -->
+            <div class="container">
+	<!-- <div class="col-md-5"> -->
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <section class="post-heading">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="media">
+                              <div class="media-left">
+                                <a href="#">
+                                  <img class="media-object photo-profile" src="{{post.user.profile_image}}" width="40" height="40" alt="...">
+                                </a>
+                              </div>
+                              <div class="media-body">
+                                <a href="#" class="anchor-username"><h4 class="media-heading">{{post.user.first_name}} {{post.user.last_name}}</h4></a>
+                                <a href="#" class="anchor-time">{{post.post_time}}</a>
+                              </div>
+                            </div>
+                        </div>
+                         <div class="col-md-1">
+                             <a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                         </div>
+                    </div>
+               </section>
+               <section class="post-body">
+                   <p style="color: black;">{{post.post}}</p>
+               </section>
+               <section class="post-footer">
+                   <hr>
+                   <div class="post-footer-option container">
+                        <ul class="list-unstyled">
+                            <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Comment</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-share-alt"></i> Share</a></li>
+                        </ul>
+                   </div>
+                   <div class="post-footer-comment-wrapper">
+                       <div class="comment-form">
 
-    <!-- Confirmed friend requests -->
-    {% for connection in connections %}
-        <form method="post" action="{% url 'home:confirmed_requests' custom_user.username %}">
-            {% csrf_token %}
-            {% if connection.status == "confirmed" %}
-                <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
-                <p>{{connection.friend.first_name}} {{connection.friend.last_name}}</p>
-                <button type="submit">Unfriend</button></p>
-            {% endif %}
-        </form>
-    {% endfor %}
+                       </div>
+                       <div class="comment">
+                            <div class="media">
+                              <div class="media-left">
+                                <a href="#">
+                                  <img class="media-object photo-profile" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="32" height="32" alt="...">
+                                </a>
+                              </div>
+                              <div class="media-body">
+                                <a href="#" class="anchor-username"><h4 class="media-heading">Media heading</h4></a>
+                                <a href="#" class="anchor-time">51 mins</a>
+                              </div>
+                            </div>
+                       </div>
+                   </div>
+               </section>
+            </div>
+        </div>
+	<!-- </div> -->
+</div>
+            {% endfor %}
 
-    <a href="{% url 'messenger:base' custom_user.id %}">Messenger</a><br>
+<!-- <p>{{post.post}} @ {{post.post_time}}</p> -->
 
-</body>
+    </div>
 
-</html>
+{% endblock %}

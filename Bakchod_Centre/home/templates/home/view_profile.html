@@ -1,14 +1,9 @@
-<html>
+{% extends "home/base.html" %}
 
-<head>
-</head>
+{% block content %}
 
-<body>
-    <h1>{{user.first_name}} {{user.last_name}}</h1>
-    <img src="{{user.profile_image}}">
-    <h3>Username: {{user.username}}</h3>
-    <h3>Email: {{user.email}}</h3>
-    <h3>Contact: {{user.contact}}</h3>
-</body>
+    <h3>Username: {{custom_user.username}}</h3>
+    <h3>Email: {{custom_user.email}}</h3>
+    <h3>Contact: {{custom_user.contact}}</h3>
 
-</html>
+{% endblock %}

@@ -173,7 +173,7 @@ def change_password(request, userName):
 def user_view_profile(request, userName):
     if request.method == 'GET':
         user = CustomUser.objects.get(username=userName)
-        return render(request, 'home/view_profile.html', {'user': user})
+        return render(request, 'home/view_profile.html', {'custom_user': user})
     elif request.method == 'POST':
         pass
 
@@ -236,3 +236,13 @@ def confirmed_requests(request, userName):
             newconnection2.save()
             #null, pending, sent, confirmed
             return redirect('/home/'+userName)
+
+def friends(request, userName):
+    if request.method == 'POST':
+        pass
+    elif request.method == 'GET':
+        user = CustomUser.objects.get(username = userName)
+        connections = Connection.objects.filter(user = user)
+        return render(request, 'home/friends.html', {'custom_user': user,
+                                                     'connections': connections,
+                                                    })

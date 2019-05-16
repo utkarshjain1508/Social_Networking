@@ -1,17 +1,139 @@
-<!DOCTYPE html>
-<html>
-<head>
-    {% load staticfiles %}
-    <script>
-        var username_list = {{username_list|safe}};
-        var email_list = {{email_list|safe}};
-        var userName = "{{custom_user.username}}";
-        var userEmail = "{{custom_user.email}}";
-    </script>
-    <script src="{% static 'home/js/profile_edit_validation.js' %}"></script>
-</head>
+{% extends "home/base.html" %}
 
-<body>
+
+    {% block content %}
+    {% load staticfiles %}
+    <link href="{% static 'home/signup/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'home/signup/vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'home/signup/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'home/signup/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'home/signup/css/main.css' %}" rel="stylesheet" media="all">
+
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">Signup</h2>
+                </div>
+                <div class="card-body">
+
+                    <form name="myForm" onsubmit="return refreshCaptchaResponse() && validateForm(username_list, email_list, response)" method="post" action="{% url 'home:signup' %}">
+                        {% csrf_token %}
+
+                        <div class="form-row m-b-55">
+                            <div class="name">Name</div>
+                            <div class="value">
+                                <div class="row row-space">
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="first_name">
+                                            <p style="color: red;" id="first_name"></p>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="last_name">
+                                            <p style="color: red;" id="last_name"></p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Username</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="username">
+                                    <p style="color: red;" id="username"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Email</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="email" name="user_email">
+                                    <p style="color: red;" id="user_email"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Contact</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="contact">
+                                    <p style="color: red;" id="contact"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Date Of Birth</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="date" name="date_of_birth">
+                                    <p style="color: red;" id="date_of_birth"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Gender</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name='gender'>
+                                            <option disabled="disabled" selected="selected">Choose option</option>
+                                            <option value='Male'>Male</option>
+                                            <option value='Female'>Female</option>
+                                            <option value='Other'>Other</option>
+                                            <option value='Do not wish to specify'>Do not wish to specify</option>
+                                        </select>
+                                        <p style="color: red;" id="gender"></p>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Password</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="password" name="password">
+                                    <p style="color: red;" id="password"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Confirm Password</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="password" name="confirm_password">
+                                    <p style="color: red;" id="confirm_password"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <script src='https://www.google.com/recaptcha/api.js'></script>
+                            <div class="g-recaptcha" data-sitekey="6LepHZcUAAAAAK2JrcK0Mx-kIyWHVRUmVhgZY89q" data-callback="verifyCaptcha"></div>
+                            <p id="g-recaptcha-error"></p>
+                        </div>
+                        <div>
+                            <button class="btn btn--radius-2 btn--red" type="submit">Signup</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <h1> Edit Profile </h1>
     <form name="myForm" method="post" onsubmit="return validateForm(username_list, email_list, userName, userEmail)" enctype="multipart/form-data" action="{% url 'home:user_edit' custom_user.username %}">
@@ -73,6 +195,22 @@
         <button type="submit" >Update</button>
     </form>
 
-</body>
+    {% load staticfiles %}
+    <script>
+        var username_list = {{username_list|safe}};
+        var email_list = {{email_list|safe}};
+        var userName = "{{custom_user.username}}";
+        var userEmail = "{{custom_user.email}}";
+    </script>
+    <script src="{% static 'home/js/profile_edit_validation.js' %}"></script>
 
-</html>
+    <script src="{% static 'home/signup/vendor/jquery/jquery.min.js' %}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'home/signup/vendor/select2/select2.min.js' %}"></script>
+    <script src="{% static 'home/signup/vendor/datepicker/moment.min.js' %}"></script>
+    <script src="{% static 'home/signup/vendor/datepicker/daterangepicker.js' %}"></script>
+
+    <!-- Main JS-->
+    <script src="{% static 'home/signup/js/global.js' %}"></script>
+
+{% endblock %}
