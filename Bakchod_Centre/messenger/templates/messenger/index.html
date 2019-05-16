@@ -700,8 +700,8 @@ Website: http://emilcarlsson.se/
 	<div id="sidepanel">
 		<div id="profile">
 			<div class="wrap">
-				<img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
-				<p>Mike Ross</p>
+				<img id="profile_image" class="online" alt=""/>
+				<p id = "profile_username"></p>
 				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
 				<div id="status-options">
 					<ul>
@@ -726,8 +726,8 @@ Website: http://emilcarlsson.se/
 			<input type="text" placeholder="Search contacts..." />
 		</div>
 		<div id="contacts">
-			<ul>
-				<li class="contact">
+			<ul id="friends_list">
+				<!-- <li class="contact">
 					<div class="wrap">
 						<span class="contact-status online"></span>
 						<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
@@ -826,7 +826,7 @@ Website: http://emilcarlsson.se/
 							<p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
 						</div>
 					</div>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 		<div id="bottom-bar">
@@ -877,7 +877,7 @@ Website: http://emilcarlsson.se/
 				<li class="replies">
 					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
 					<p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
-				</li>
+				</li>Mike Ross
 			</ul>
 		</div>
 		<div class="message-input">
@@ -947,4 +947,19 @@ $(window).on('keydown', function(e) {
 });
 //# sourceURL=pen.js
 </script>
-</body></html>
+
+
+<script>
+    var profile="{{ profile.password }}";
+    document.getElementById("profile_username").innerHTML="{{profile.username}}";
+    document.getElementById("profile_image").src="{{profile.profile_image}}";
+
+    {% for connection in connections %}
+        var node = document.createElement("li");                 // Create a <li> node
+        node.classList.add("contact");
+        node.innerHTML = "<div class=\"wrap\"><span class=\"contact-status online\"></span><img src=\"{{ connection.friend.profile_image }}\" alt=\"\" /><div class=\"meta\"><p class=\"name\">{{ connection.friend.username }}</p><p class=\"preview\">You just got LITT up, Mike.</p></div> </div>";         // Create a text node
+        document.getElementById("friends_list").appendChild(node);
+    {% endfor %}
+</script>
+</body>
+</html>
