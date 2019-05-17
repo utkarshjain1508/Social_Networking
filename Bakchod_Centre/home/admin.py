@@ -4,4 +4,5 @@ from .models import *
 admin.site.register(CustomUser)
 admin.site.register(Connection)
 admin.site.register(Post)
+admin.site.register(Comment)
 # Register your models here.

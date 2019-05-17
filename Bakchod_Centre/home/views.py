@@ -78,9 +78,14 @@ def profile(request, userName):
         custom_user = CustomUser.objects.get(username=userName)
         posts = Post.objects.filter(user=custom_user).order_by('-post_time')
         connections = Connection.objects.filter(user=custom_user)
+        comments = []
+        for post in posts:
+            comments += Comment.objects.filter(post=post).order_by('-comment_time')
         return render(request, 'home/profile.html', {'custom_user': custom_user,
                                                      'posts': posts,
-                                                     'connections': connections})
+                                                     'connections': connections,
+                                                     'comments': comments
+                                                     })
 
 def user_edit(request, userName):
     if request.method == 'POST':

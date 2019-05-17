@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     contact = models.IntegerField(default=0)
     profile_image = models.ImageField(null=True, blank=True)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(null=True, blank=True)
     education = models.CharField(max_length=300, blank=True)
     job = models.CharField(max_length=300, blank=True)
     education_place = models.CharField(max_length=300, blank=True)

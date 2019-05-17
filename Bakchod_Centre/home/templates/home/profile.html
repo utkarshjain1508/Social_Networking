@@ -1,6 +1,16 @@
 {% extends "home/base.html" %}
 
     {% block content %}
+    <style>
+        .user_name{
+            font-size:14px;
+            font-weight: bold;
+        }
+        .comments-list .media{
+            border-bottom: 1px dotted #ccc;
+        }
+    </style>
+
     <div class="container-fluid">
       <div class="row" style="padding: 5em 5em;">
 
@@ -28,7 +38,7 @@
                             <div class="media">
                               <div class="media-left">
                                 <a href="{% url 'home:user_view_profile' post.user.username %}">
-                                  <img class="media-object photo-profile" src="{{post.user.profile_image}}" width="40" height="40" alt="...">
+                                  <img class="media-object photo-profile" src="{{post.user.profile_image}}" width="40" height="40">
                                 </a>
                               </div>
                               <div class="media-body">
@@ -37,40 +47,53 @@
                               </div>
                             </div>
                         </div>
-                         <div class="col-md-1">
+                         <!-- <div class="col-md-1">
                              <a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                         </div>
+                         </div> -->
                     </div>
                </section>
                <section class="post-body">
                    <p style="color: black;">{{post.post}}</p>
                </section>
+               <!-- <div class="post-footer-option container">
+                    <ul class="list-unstyled">
+                        <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Comment</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-share-alt"></i> Share</a></li>
+                    </ul>
+               </div> -->
+
+
                <section class="post-footer">
                    <hr>
-                   <!-- <div class="post-footer-option container">
-                        <ul class="list-unstyled">
-                            <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Comment</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-share-alt"></i> Share</a></li>
-                        </ul>
-                   </div> -->
+
                    <div class="post-footer-comment-wrapper">
                        <div class="comment-form">
+                       </div>
 
-                       </div>
-                       <div class="comment">
-                            <div class="media">
-                              <div class="media-left">
-                                <a href="#">
-                                  <img class="media-object photo-profile" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="32" height="32" alt="...">
-                                </a>
-                              </div>
-                              <div class="media-body">
-                                <a href="#" class="anchor-username"><h4 class="media-heading">Media heading</h4></a>
-                                <a href="#" class="anchor-time">51 mins</a>
-                              </div>
+
+                       <div class="comments-list">
+
+                           {% for comment in comments %}
+                           {% if comment.post == post %}
+                       <div class="media" style="padding: 0em 0em 1em 0em;">
+                            <a class="media-left" href="{% url 'home:user_view_profile' comment.user.username %}">
+                              <img class="media-object photo-profile" src="{{comment.user.profile_image}}" width="40" height="40">
+                            </a>
+                            <div class="media-body">
+
+                              <a href="{% url 'home:user_view_profile' comment.user.username %}"><h4 class="media-heading user_name">{{comment.user.first_name}} {{comment.user.last_name}}</h4></a>
+                              {{comment.comment}}
+
+                              <!-- <p><small><a href="">Like</a> - <a href="">Share</a></small></p> -->
                             </div>
-                       </div>
+                            <p class="pull-right"><small>{{comment.comment_time}}</small></p>
+                          </div>
+                          {% endif %}
+                          {% endfor %}
+
+                   </div>
+
                        <form method="post" action="{% url 'home:post_comment' custom_user.username post.id %}">
                            {% csrf_token %}
                        <div class="comment">
@@ -84,6 +107,9 @@
                                   </div>
                               </div>
                             </div>
+
+
+
                        </div>
                    </form>
 
