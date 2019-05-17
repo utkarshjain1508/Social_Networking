@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, logout
 from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.core.files.storage import FileSystemStorage
@@ -76,7 +76,7 @@ def profile(request, userName):
     elif request.method == 'GET':
         form = profile_post_form()
         custom_user = CustomUser.objects.get(username=userName)
-        posts = Post.objects.filter(user=custom_user)
+        posts = Post.objects.filter(user=custom_user).order_by('-post_time')
         connections = Connection.objects.filter(user=custom_user)
         return render(request, 'home/profile.html', {'custom_user': custom_user,
                                                      'posts': posts,
@@ -180,7 +180,6 @@ def user_view_profile(request, userName):
 def send_requests(request, userName):
     if request.method == 'POST':
         form = send_requests_form(request.POST)
-        print(form.errors)
         if form.is_valid():
             print("Chirag")
             user = CustomUser.objects.get(username=userName)
@@ -193,7 +192,7 @@ def send_requests(request, userName):
             newconnection2.status = "pending"
             newconnection2.save()
             #null, pending, sent, confirmed
-            return redirect('/home/'+userName)
+            return redirect('/home/'+userName+'/friends')
 
 def pending_requests(request, userName):
 
@@ -218,7 +217,7 @@ def pending_requests(request, userName):
                 newconnection2 = Connection.objects.get(user=friend,friend=user)
                 newconnection2.status = "null"
                 newconnection2.save()
-            return redirect('/home/'+userName)
+            return redirect('/home/'+userName+'/friends')
 
 
 def confirmed_requests(request, userName):
@@ -235,7 +234,7 @@ def confirmed_requests(request, userName):
             newconnection2.status = "null"
             newconnection2.save()
             #null, pending, sent, confirmed
-            return redirect('/home/'+userName)
+            return redirect('/home/'+userName+'/friends')
 
 def friends(request, userName):
     if request.method == 'POST':
@@ -246,3 +245,20 @@ def friends(request, userName):
         return render(request, 'home/friends.html', {'custom_user': user,
                                                      'connections': connections,
                                                     })
+
+def logout_view(request, userName):
+    logout(request)
+    return redirect('/home')
+
+def post_comment(request, userName, PostID):
+    if request.method == 'POST':
+        form = comment_post_form(request.POST)
+        if form.is_valid():
+            user = CustomUser.objects.get(username=userName)
+            post = Post.objects.get(id=PostID)
+            newComment = Comment()
+            newComment.user = user
+            newComment.post = post
+            newComment.comment = form.cleaned_data['comment']
+            newComment.save()
+            return redirect('/home/'+userName)

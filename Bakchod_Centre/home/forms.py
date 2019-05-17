@@ -37,6 +37,9 @@ class change_password_form(forms.Form):
 class profile_post_form(forms.Form):
     post = forms.CharField(label='post', max_length=1000)
 
+class comment_post_form(forms.Form):
+    comment = forms.CharField(label='comment', max_length=1000)
+
 class send_requests_form(forms.Form):
     friend = forms.CharField(label='friend', max_length=1000)
 

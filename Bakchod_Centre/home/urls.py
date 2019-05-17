@@ -17,4 +17,6 @@ urlpatterns = [
     path('<slug:userName>/pending_requests', views.pending_requests, name='pending_requests'),
     path('<slug:userName>/confirmed_requests', views.confirmed_requests, name='confirmed_requests'),
     path('<slug:userName>/friends', views.friends, name='friends'),
+    path('<slug:userName>/logout', views.logout_view, name='logout'),
+    path('<slug:userName>/comment/<slug:PostID>', views.post_comment, name='post_comment'),
 ]

@@ -12,21 +12,14 @@
                     <button class="btn btn-primary" type="submit">Post</button>
                   </span>
                 </div>
+            </form>
             </div>
+        </div>
+
 
             {% for post in posts %}
-            <!-- <div class="row" style="padding: 1em 5em;">
-                <div class="card w-75">
-                    <div class="card-body">
-                        <h5 class="card-title">{{post.user}} @ {{post.post_time}}</h5>
-                        <p class="card-text">{{post.post}}</p>
-                        <a href="#" class="btn btn-primary">Button</a>
-                    </div>
-                </div>
-
-            </div> -->
             <div class="container">
-	<!-- <div class="col-md-5"> -->
+
         <div class="panel panel-default">
             <div class="panel-body">
                <section class="post-heading">
@@ -34,12 +27,12 @@
                         <div class="col-md-11">
                             <div class="media">
                               <div class="media-left">
-                                <a href="#">
+                                <a href="{% url 'home:user_view_profile' post.user.username %}">
                                   <img class="media-object photo-profile" src="{{post.user.profile_image}}" width="40" height="40" alt="...">
                                 </a>
                               </div>
                               <div class="media-body">
-                                <a href="#" class="anchor-username"><h4 class="media-heading">{{post.user.first_name}} {{post.user.last_name}}</h4></a>
+                                <a href="{% url 'home:user_view_profile' post.user.username %}" class="anchor-username"><h4 class="media-heading">{{post.user.first_name}} {{post.user.last_name}}</h4></a>
                                 <a href="#" class="anchor-time">{{post.post_time}}</a>
                               </div>
                             </div>
@@ -54,13 +47,13 @@
                </section>
                <section class="post-footer">
                    <hr>
-                   <div class="post-footer-option container">
+                   <!-- <div class="post-footer-option container">
                         <ul class="list-unstyled">
                             <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Comment</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-share-alt"></i> Share</a></li>
                         </ul>
-                   </div>
+                   </div> -->
                    <div class="post-footer-comment-wrapper">
                        <div class="comment-form">
 
@@ -78,6 +71,22 @@
                               </div>
                             </div>
                        </div>
+                       <form method="post" action="{% url 'home:post_comment' custom_user.username post.id %}">
+                           {% csrf_token %}
+                       <div class="comment">
+                            <div class="media">
+                              <div class="media-body">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" name="comment"></input>
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-primary" type="submit">Comment</button>
+                                    </span>
+                                  </div>
+                              </div>
+                            </div>
+                       </div>
+                   </form>
+
                    </div>
                </section>
             </div>

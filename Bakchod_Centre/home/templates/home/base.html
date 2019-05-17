@@ -144,6 +144,7 @@ body{
 						<li><a href="{% url 'home:user_view_profile' custom_user.username %}">View Profile</a></li>
 						<li><a href="{% url 'home:user_edit' custom_user.username %}">Edit Profile</a></li>
 						<li><a href="{% url 'home:change_password' custom_user.username %}">Change Password</a></li>
+                        <li><a href="{% url 'home:logout' custom_user.username %}">Logout</a></li>
                     </ul>
 					<div class="clearfix"> </div>
 				</div>

@@ -236,6 +236,7 @@ body {
   font-family: "Open Sans", "Arial", "Helvetica Neue", sans-serif;
   font-weight: 400;
   font-size: 14px;
+  background-color: #f4e9d2;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -269,7 +270,7 @@ h6 {
 /* ==========================================================================
    #BACKGROUND
    ========================================================================== */
-.bg-blue {
+/* .bg-blue {
   background: #2c6ed5;
 }
 
@@ -299,7 +300,7 @@ h6 {
   background: -moz-linear-gradient(bottom left, #08aeea 0%, #b721ff 100%);
   background: -o-linear-gradient(bottom left, #08aeea 0%, #b721ff 100%);
   background: linear-gradient(to top right, #08aeea 0%, #b721ff 100%);
-}
+} */
 
 /* ==========================================================================
    #SPACING

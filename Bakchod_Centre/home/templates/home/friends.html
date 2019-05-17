@@ -17,6 +17,9 @@
                     <a class="nav-link" data-toggle="tab" href="#pending_friends" role="tab">Pending friend requests</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#sent_friends" role="tab">Sent friend requests</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#other_users" role="tab">People you may know</a>
                   </li>
                 </ul>
@@ -33,12 +36,12 @@
                       <div class="card__content">
                           <div class="media">
                             <div class="media-left">
-                              <a href="#">
+                              <a href="{% url 'home:user_view_profile' connection.friend.username %}">
                                 <img class="media-object photo-profile" src="{{connection.friend.profile_image}}" width="40" height="40" alt="...">
                               </a>
                             </div>
                             <div class="media-body">
-                              <a href="#" class="anchor-username"><h4 class="media-heading">{{connection.friend.first_name}} {{connection.friend.last_name}}</h4></a>
+                              <a href="{% url 'home:user_view_profile' connection.friend.username %}" class="anchor-username"><h4 class="media-heading">{{connection.friend.first_name}} {{connection.friend.last_name}}</h4></a>
                             </div>
                           </div>
                         <!-- <div class="card__title"><a href="#">{{connection.friend.first_name}} {{connection.friend.last_name}}<i class="fas fa-sm fa-link"></i></a></div> -->
@@ -47,8 +50,11 @@
                         <!-- <p class="card__text">
                         {{assgn.About}}
                         </p> -->
-
-                        <!-- <a href="#"><button class="btn btn--block card__btn">EDIT DETAILS</button></a> -->
+                        <form method="post" action="{% url 'home:confirmed_requests' custom_user.username %}">
+                            {% csrf_token %}
+                            <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
+                            <button type="submit" class="btn btn-primary btn--block card__btn">Unfriend</button>
+                        </form>
                       </div>
                     </div>
                   </li>
@@ -69,12 +75,12 @@
                   <div class="card__content">
                       <div class="media">
                         <div class="media-left">
-                          <a href="#">
+                          <a href="{% url 'home:user_view_profile' connection.friend.username %}">
                             <img class="media-object photo-profile" src="{{connection.friend.profile_image}}" width="40" height="40" alt="...">
                           </a>
                         </div>
                         <div class="media-body">
-                          <a href="#" class="anchor-username"><h4 class="media-heading">{{connection.friend.first_name}} {{connection.friend.last_name}}</h4></a>
+                          <a href="{% url 'home:user_view_profile' connection.friend.username %}" class="anchor-username"><h4 class="media-heading">{{connection.friend.first_name}} {{connection.friend.last_name}}</h4></a>
                         </div>
                       </div>
                     <!-- <div class="card__title"><a href="#">{{connection.friend.first_name}} {{connection.friend.last_name}}<i class="fas fa-sm fa-link"></i></a></div> -->
@@ -83,8 +89,15 @@
                     <!-- <p class="card__text">
                     {{assgn.About}}
                     </p> -->
-
-                    <!-- <a href="#"><button class="btn btn--block card__btn">EDIT DETAILS</button></a> -->
+                    <form method="post" action="{% url 'home:pending_requests' custom_user.username %}">
+                        {% csrf_token %}
+                        <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
+                        <select name='action'>
+                            <option value='confirm'>Confirm</option>
+                            <option value='delete'>Delete</option>
+                        </select>
+                    <button type="submit" class="btn btn-primary btn--block card__btn">Submit</button></a>
+                    </form>
                   </div>
                 </div>
               </li>
@@ -93,6 +106,42 @@
             </ul>
             </div>
         </div>
+
+
+        <div class="row" id="sent_friends">
+            <div class="col-lg-12">
+            <ul class="cards">
+              {% for connection in connections %}
+              {% if connection.status == 'sent' %}
+              <li class="cards__item">
+                <div class="card">
+                  <div class="card__content">
+                      <div class="media">
+                        <div class="media-left">
+                          <a href="{% url 'home:user_view_profile' connection.friend.username %}">
+                            <img class="media-object photo-profile" src="{{connection.friend.profile_image}}" width="40" height="40" alt="...">
+                          </a>
+                        </div>
+                        <div class="media-body">
+                          <a href="{% url 'home:user_view_profile' connection.friend.username %}" class="anchor-username"><h4 class="media-heading">{{connection.friend.first_name}} {{connection.friend.last_name}}</h4></a>
+                        </div>
+                      </div>
+                    <!-- <div class="card__title"><a href="#">{{connection.friend.first_name}} {{connection.friend.last_name}}<i class="fas fa-sm fa-link"></i></a></div> -->
+
+                    <!-- <div class="card__subtitle">Deadline : {{assgn.Deadline}}</div> -->
+                    <!-- <p class="card__text">
+                    {{assgn.About}}
+                    </p> -->
+                    <button type="submit" class="btn btn-primary btn--block card__btn" disabled>Friend request sent</button></a>
+                  </div>
+                </div>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+            </div>
+        </div>
+
 
         <div class="row" id="other_users">
             <div class="col-lg-12">
@@ -104,12 +153,12 @@
                       <div class="card__content">
                           <div class="media">
                             <div class="media-left">
-                              <a href="#">
+                              <a href="{% url 'home:user_view_profile' connection.friend.username %}">
                                 <img class="media-object photo-profile" src="{{connection.friend.profile_image}}" width="40" height="40" alt="...">
                               </a>
                             </div>
                             <div class="media-body">
-                              <a href="#" class="anchor-username"><h4 class="media-heading">{{connection.friend.first_name}} {{connection.friend.last_name}}</h4></a>
+                              <a href="{% url 'home:user_view_profile' connection.friend.username %}" class="anchor-username"><h4 class="media-heading">{{connection.friend.first_name}} {{connection.friend.last_name}}</h4></a>
                             </div>
                           </div>
                         <!-- <div class="card__title"><a href="#">{{connection.friend.first_name}} {{connection.friend.last_name}}<i class="fas fa-sm fa-link"></i></a></div> -->
@@ -118,8 +167,11 @@
                         <!-- <p class="card__text">
                         {{assgn.About}}
                         </p> -->
-
-                        <!-- <a href="#"><button class="btn btn--block card__btn">EDIT DETAILS</button></a> -->
+                        <form method="post" action="{% url 'home:send_requests' custom_user.username %}">
+                            {% csrf_token %}
+                            <input type='text' name='friend' value='{{connection.friend.username}}' hidden></input>
+                            <button type="submit" class="btn btn-primary btn--block card__btn">Send friend request</button>
+                        </form>
                       </div>
                     </div>
                   </li>

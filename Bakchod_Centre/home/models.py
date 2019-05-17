@@ -27,3 +27,9 @@ class Post(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='post_user')
     post = models.CharField(max_length=1000)
     post_time = models.DateTimeField(auto_now_add=True, editable=False)
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_key')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comment_user')
+    comment = models.CharField(max_length=1000)
+    comment_time = models.DateTimeField(auto_now_add=True, editable=False)
